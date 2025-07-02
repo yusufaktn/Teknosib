@@ -14,6 +14,8 @@ namespace Teknosib.Entity.Models
         public string? Description { get; set; }
 
 
-      
+        public ICollection<Problem> Problem { get; set; }
+
+
     }
 }

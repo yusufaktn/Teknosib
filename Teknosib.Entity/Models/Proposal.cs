@@ -19,7 +19,7 @@ namespace Teknosib.Entity.Models
         public ProposalStatus  ProposalStatus { get; set; } = ProposalStatus.Pending;
        
 
-        public Problems Problems { get; set; }
+        public Problem Problem { get; set; }
         public SolutionProvider SolutionProvider { get; set; }
 
 

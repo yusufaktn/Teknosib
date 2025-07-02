@@ -10,14 +10,16 @@ namespace Teknosib.Entity.Models
     {
         public Guid CompanyId { get; set; }
         public Guid AppUserId { get; set; }
+
         public string CompanyName { get; set; }
         public string TaxNumber { get; set; }//Vergi Numarası
         public string Address { get; set; }
         public string? WebSite { get; set; }//Link
+        public string? Description { get; set; }
 
 
         public AppUser AppUser { get; set; }
-        public ICollection<Problems> Problems { get; set; }
+        public ICollection<Problem> Problems { get; set; }
 
 
     }
