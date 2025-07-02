@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teknosib.Entity", "Teknosib.Entity\Teknosib.Entity.csproj", "{3A8813D4-07E5-481B-9131-2A199D25F721}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teknosib.DataAccess", "Teknosib.DataAccess\Teknosib.DataAccess.csproj", "{3088BBF1-F264-4AB5-9AE7-76E05F2EE53A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teknosib.Business", "Teknosib.Business\Teknosib.Business.csproj", "{C59D1FDB-12FF-4694-88A8-F43A07A4E5FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teknosib.Api", "Teknosib.Api\Teknosib.Api.csproj", "{0AA4B9C0-DBA3-4DAB-AF51-590D8CE67A08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{3088BBF1-F264-4AB5-9AE7-76E05F2EE53A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3088BBF1-F264-4AB5-9AE7-76E05F2EE53A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3088BBF1-F264-4AB5-9AE7-76E05F2EE53A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C59D1FDB-12FF-4694-88A8-F43A07A4E5FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C59D1FDB-12FF-4694-88A8-F43A07A4E5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C59D1FDB-12FF-4694-88A8-F43A07A4E5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C59D1FDB-12FF-4694-88A8-F43A07A4E5FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AA4B9C0-DBA3-4DAB-AF51-590D8CE67A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA4B9C0-DBA3-4DAB-AF51-590D8CE67A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA4B9C0-DBA3-4DAB-AF51-590D8CE67A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA4B9C0-DBA3-4DAB-AF51-590D8CE67A08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

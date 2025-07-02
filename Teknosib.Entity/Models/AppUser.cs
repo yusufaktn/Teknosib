@@ -31,10 +31,11 @@ namespace Teknosib.Entity.Models
 
 
         //Navigation
-        public Company? Company { get; set; }
-        public SolutionProvider? SolutionProvider { get; set; }
-        public ICollection<Problem> Problems { get; set; }
-        public ICollection<Proposal> Proposal { get; set; }
+        public virtual Company? Company { get; set; }
+        public  virtual SolutionProvider? SolutionProvider { get; set; }
+        public  virtual ICollection <Review> ReviewWritten { get; set; }
+        public  virtual ICollection<Review> ReviewsRecevid { get; set; }
+
 
 
 

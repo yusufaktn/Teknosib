@@ -13,8 +13,18 @@ namespace Teknosib.DataAccess.Configration
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
+
+            builder.ToTable("Tbl_Category");
+
             builder.HasKey(x=>x.CategoryId);
             builder.Property(x => x.Name).HasMaxLength(50);
+            builder.Property(x=>x.Description).HasMaxLength(150);
+
+
+            builder.HasMany(x=>x.Problem)
+                .WithOne(x=>x.Category)
+                .HasForeignKey(x=>x.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
         }

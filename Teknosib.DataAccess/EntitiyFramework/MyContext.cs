@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Teknosib.DataAccess.Configration;
 using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.EntitiyFramework
@@ -19,12 +21,29 @@ namespace Teknosib.DataAccess.EntitiyFramework
         public DbSet<Category> Categories { get; set; }
         public DbSet<Company>Companies{ get; set; }
         public DbSet<KosgebSupport>KosgebSupports{ get; set; }
-        public DbSet<Problems> Problems { get; set; }
+        public DbSet<Problem> Problems { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<SolutionProvider> SolutionProviders { get; set; }
-        
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            //modelBuilder.ApplyConfiguration(new AppUserConfigration());
+            //modelBuilder.ApplyConfiguration(new CategoryConfigration());
+            //modelBuilder.ApplyConfiguration(new CompanyConfigration());
+            //modelBuilder.ApplyConfiguration(new KosgebSupportConfigration());
+            //modelBuilder.ApplyConfiguration(new ProblemConfigration());
+            //modelBuilder.ApplyConfiguration(new ProjectConfigration());
+            //modelBuilder.ApplyConfiguration(new ProposalConfigration());
+            //modelBuilder.ApplyConfiguration(new ReviewConfigration());
+            //modelBuilder.ApplyConfiguration(new SolutionProviderConfigration());
+        }
+
 
 
     }

@@ -16,7 +16,7 @@ namespace Teknosib.Entity.Models
         public string  MaxSupportAmount { get; set; }//Destek Üst Limti
 
 
-        
+        public virtual Project Project { get; set; }
 
 
     }

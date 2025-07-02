@@ -24,10 +24,10 @@ namespace Teknosib.Entity.Models
 
 
         //Navigation
-        public Category Category { get; set; }
-        public Company Company { get; set; }
-        public ICollection<Proposal> Proposal { get; set; }
-        public Project? Project { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Company Company { get; set; }
+        public  virtual ICollection<Proposal> Proposal { get; set; }
+        public virtual Project? Project { get; set; }
 
     }
 }

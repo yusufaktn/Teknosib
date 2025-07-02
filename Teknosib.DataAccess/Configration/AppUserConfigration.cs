@@ -13,6 +13,10 @@ namespace Teknosib.DataAccess.Configration
     {
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
+
+            builder.ToTable("Tbl_AppUser");
+
+
             builder.HasKey(x=>x.AppUserId);
             builder.HasIndex(x=>x.Email).IsUnique();
 
@@ -32,27 +36,8 @@ namespace Teknosib.DataAccess.Configration
 
 
             builder.HasOne(x=>x.SolutionProvider)
-                .WithOne(x=>x.AppUsers)
+                .WithOne(x=>x.AppUser)
                 .HasForeignKey<SolutionProvider>(x => x.AppUserId);
-
-
-            //(one to many)
-
-            builder.HasMany(x=>x.Problems)
-                .WithOne(x=>x.)
-
-
-
-
-
-
-                
-
-
-
-
-
-
 
 
         }

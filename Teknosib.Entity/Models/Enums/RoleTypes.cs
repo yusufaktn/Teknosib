@@ -8,8 +8,10 @@ namespace Teknosib.Entity.Models.Enums
 {
     public enum RoleTypes
     {
+        SuperAdmin,
         Admin,
         Business,
-        SolutionProvider
+        SolutionProvider,
+        KosgebOfficial
     }
 }

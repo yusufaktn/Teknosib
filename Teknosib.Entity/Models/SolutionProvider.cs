@@ -23,10 +23,11 @@ namespace Teknosib.Entity.Models
         public string? WebSite { get; set; }//Link
         public string? Description { get; set; }
 
+        
 
-
-        public AppUser AppUsers { get; set; }
-        public ICollection<Proposal> Proposal { get; set; }
+        public virtual AppUser AppUser { get; set; }
+        public virtual ICollection<Project> Project { get; set; }
+        public virtual ICollection<Proposal> Proposal { get; set; }
 
 
 

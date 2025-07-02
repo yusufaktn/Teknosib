@@ -18,14 +18,15 @@ namespace Teknosib.Entity.Models
 
         public DateTime? StartDate { get; set; }
         public DateTime? ComplatedDate { get; set; }
-        public ProjectStatus  ProjectStatus{ get; set; }
+        public ProjectStatus ProjectStatus { get; set; } = ProjectStatus.NoStarted;
 
 
 
 
-        public Problems Problems { get; set; }
-        public SolutionProvider SolutionProvider { get; set; }
-        public KosgebSupport KosgebSupport { get; set; }
+        public virtual Problem Problem { get; set; }
+        public virtual SolutionProvider SolutionProvider { get; set; }
+        public virtual KosgebSupport? KosgebSupport { get; set; }
+        public virtual Review? Review { get; set; }
 
 
 

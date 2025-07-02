@@ -18,8 +18,8 @@ namespace Teknosib.Entity.Models
         public string? Description { get; set; }
 
 
-        public AppUser AppUser { get; set; }
-        public ICollection<Problem> Problems { get; set; }
+        public virtual AppUser AppUser { get; set; }
+        public virtual ICollection<Problem> Problem { get; set; }
 
 
     }
