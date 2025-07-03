@@ -19,7 +19,7 @@ namespace Teknosib.DataAccess.Configration
             builder.Property(p => p.ProblemId).IsRequired();
             builder.Property(p => p.SolutionProviderId).IsRequired();
             builder.Property(p => p.OfferDetails).IsRequired().HasMaxLength(250);
-            builder.Property(p => p.Price).IsRequired();
+            builder.Property(p => p.Price).IsRequired().HasColumnType("decimal(18,2)");
             builder.Property(p => p.Currency).IsRequired();
             builder.Property(p => p.ProposalStatus);
 
