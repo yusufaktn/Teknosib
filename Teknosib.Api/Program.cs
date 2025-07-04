@@ -11,6 +11,9 @@ namespace Teknosib.Api
 
             var connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<Teknosib.DataAccess.EntitiyFramework.MyContext>(op=>op.UseSqlServer(connectionstring));
+            
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 

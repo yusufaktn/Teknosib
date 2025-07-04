@@ -1,0 +1,25 @@
+Entity Layer:
+
+-Veritabaný tablolarý için model classlarý oluþturuldu. Ýliþkileri modeller içinde tanýmlandý.
+-Enum deðerler kullanýldý.
+
+
+Data Access Layer:
+
+-Configration klasörü içinde tek tek modellerin veritabanýndaki konfigrasyonlarýný ve iliþkilerini belirledik.
+Böylelikle EF core hangi tablonun ne ile iliþkili olduðu gibi olmasý gereken özellikleri anlamýþ oldu ve veritabanýna bu þekilde yansýtýldý.
+
+-Veritabanýna yansýtma iþlemini migraiton ile yaptýk ve tablolarýmýz otomatik oluþtu.
+-Repository klsörümüzde Repository design pattern kullandýðýmýz içinde buraya hen entity için repo yazýldý.Ayrýca bunlarýn ortak iþlemleri olduðu için genericrepo oluþturuldu.
+Bu sayede her tabloda yapýlacak iþlemleri(Create,Update,Delete,GetList,GetById...) kod tekrarýndan kurtulmak için GenericRepository içinde kullandýk.
+
+-Unit of Work kullanýldý. Sebebi gerçek bir uygulamada, tek bir iþlem için birden fazla veritabaný operasyonu yapmanýz gerekebilir.
+Örnek Senaryo: Bir Problem kaydý oluþturulduðunda, ayný anda ilgili bir Log kaydý da atmak isteyebilirsiniz.
+
+ProblemRepository.Add(yeniProblem)
+
+LogRepository.Add(yeniLog)
+
+Eðer her repository kendi SaveChanges metodunu çaðýrýrsa, ilk iþlem baþarýlý olup ikincisi hata verdiðinde veritabanýnýzda tutarsýzlýk oluþur. Problem eklenmiþ ama Log eklenmemiþ olur.
+
+Unit of Work, tüm bu iþlemleri tek bir "iþ birimi" olarak gruplar ve hepsi tamamlandýðýnda veritabanýna tek bir transaction (iþlem) ile kaydeder. Böylece "ya hep ya hiç" prensibiyle çalýþýrýz. Herhangi bir adýmda hata olursa, tüm iþlemler geri alýnýr.

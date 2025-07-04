@@ -10,8 +10,7 @@ namespace Teknosib.DataAccess.Repository.Interface
 {
     public interface IGenericRepository<T> where T : BaseEntitiy
     {
-        Task<List<T>> GetListAll();
-        Task<List<T>> GetAllTrue(Expression<Func<T,bool>> expression);
+        Task<List<T>> GetListAll(Expression<Func<T, bool>>? expression=null,bool includeDeleted = false); //Eğer durumu false olanlarıda dahil etmek istersek diye includeDeleted = false verdik    
         Task<T> GetById(Guid id);
         Task Add (T entity);
         Task Update (T entity);
