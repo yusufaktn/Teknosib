@@ -12,6 +12,7 @@ namespace Teknosib.Entity.Models.Enums
         Admin,
         Business,
         SolutionProvider,
-        KosgebOfficial
+        KosgebOfficial,
+        Individual
     }
 }
