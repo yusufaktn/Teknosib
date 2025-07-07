@@ -15,7 +15,9 @@ namespace Teknosib.Entity.Models
         public string TaxNumber { get; set; }//Vergi Numarası
         public string Address { get; set; }
         public string? WebSite { get; set; }//Link
+        public string? Industry { get; set; }//Sektör
         public string? Description { get; set; }
+        public int? EmployeeCount { get; set; }
 
 
         public virtual AppUser AppUser { get; set; }

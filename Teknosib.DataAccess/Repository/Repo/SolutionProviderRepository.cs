@@ -9,7 +9,7 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.Repository.Repo
 {
-    public class SolutionProviderRepository : GenericRepository<SolutionProvider>, ISolutionProviderRepository
+    public class SolutionProviderRepository : GenericRepository<SolutionProviderBase>, ISolutionProviderRepository
     {
         public SolutionProviderRepository(MyContext context) : base(context)
         {

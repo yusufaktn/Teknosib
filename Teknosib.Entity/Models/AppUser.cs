@@ -13,26 +13,23 @@ namespace Teknosib.Entity.Models
     {
         public Guid AppUserId { get; set; }
 
-        //Şahıs ise
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-
-        //Şirket ise
-        public string? CompanyName { get; set; }
-
-
-
+        //Ortak Alanlar
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string? ProfileImageUrl { get; set; }
-        public byte[] PasswordHash { get; set; }//Haslanmiş şifre
+        public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public bool IsProfileCompleted { get; set; } = false;
         public RoleTypes Role { get; set; }
 
 
+       
+
         //Navigation
         public virtual Company? Company { get; set; }
-        public  virtual SolutionProvider? SolutionProvider { get; set; }
+        public  virtual IndividualProvider? IndividualProvider { get; set; }
+        public  virtual BusinessProvider? BusinessProvider { get; set; }
+
         public  virtual ICollection <Review> ReviewWritten { get; set; }
         public  virtual ICollection<Review> ReviewsRecevid { get; set; }
 

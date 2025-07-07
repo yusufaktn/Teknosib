@@ -37,7 +37,7 @@ namespace Teknosib.DataAccess.Configration
 
             builder.HasOne(x=>x.SolutionProvider)
                 .WithOne(x=>x.AppUser)
-                .HasForeignKey<SolutionProvider>(x => x.AppUserId);
+                .HasForeignKey<SolutionProviderBase>(x => x.AppUserId);
 
 
         }

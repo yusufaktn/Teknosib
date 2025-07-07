@@ -9,9 +9,9 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.Configration
 {
-    public class SolutionProviderConfigration : IEntityTypeConfiguration<SolutionProvider>
+    public class SolutionProviderConfigration : IEntityTypeConfiguration<SolutionProviderBase>
     {
-        public void Configure(EntityTypeBuilder<SolutionProvider> builder)
+        public void Configure(EntityTypeBuilder<SolutionProviderBase> builder)
         {
             builder.ToTable("Tbl_SolutionProvider");
 
@@ -30,7 +30,7 @@ namespace Teknosib.DataAccess.Configration
 
             builder.HasOne(s => s.AppUser)
                 .WithOne(s => s.SolutionProvider)
-                .HasForeignKey<SolutionProvider>(s => s.AppUserId)
+                .HasForeignKey<SolutionProviderBase>(s => s.AppUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(s => s.Proposal)

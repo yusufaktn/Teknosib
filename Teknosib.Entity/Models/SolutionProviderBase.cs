@@ -7,29 +7,32 @@ using System.Threading.Tasks;
 
 namespace Teknosib.Entity.Models
 {
-    public class SolutionProvider:BaseEntitiy
+    public abstract class SolutionProviderBase:BaseEntitiy
     {
-        public Guid SolutionProviderId { get; set; }
+        
         public Guid AppUserId { get; set; }
 
-        public string FullName { get; set; }//Ad Soyad Firma ise unvanı veya Firma Adı
         public string ExpertiseAreas { get; set; }//Uzmanlık alanı veya hangi alanda çözüm sunduğu alan
         public int ExperienceYear { get; set; }//Deyneyim yılı
-        public string? PortfolioUrl { get; set; }
+        public string Phone { get; set; }
+        public string  Email { get; set; }
+        public decimal AverageRating { get; set; } = 0;
+        public int TotalReviews { get; set; } = 0;
+        public int CompletedProjects { get; set; } = 0;
 
-        //Şirket ise
-        public string? TaxNumber { get; set; }//Vergi Numarası
-        public string? Address { get; set; }
-        public string? WebSite { get; set; }//Link
-        public string? Description { get; set; }
 
-        
+        // Doğrulama Durumu
+        public bool IsVerified { get; set; } // Admin eliyle doğrulandı mı?
+        public DateTime? VerificationDate { get; set; }
+
 
         public virtual AppUser AppUser { get; set; }
         public virtual ICollection<Project> Project { get; set; }
         public virtual ICollection<Proposal> Proposal { get; set; }
 
 
+
+        
 
     }
 }

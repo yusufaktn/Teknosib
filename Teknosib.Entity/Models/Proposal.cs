@@ -20,7 +20,7 @@ namespace Teknosib.Entity.Models
        
 
         public virtual Problem Problem { get; set; }
-        public  virtual SolutionProvider SolutionProvider { get; set; }
+        public  virtual SolutionProviderBase SolutionProvider { get; set; }
 
 
        

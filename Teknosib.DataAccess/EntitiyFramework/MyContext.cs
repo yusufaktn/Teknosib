@@ -25,7 +25,7 @@ namespace Teknosib.DataAccess.EntitiyFramework
         public DbSet<Project> Projects { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<SolutionProvider> SolutionProviders { get; set; }
+        public DbSet<SolutionProviderBase> SolutionProviders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
