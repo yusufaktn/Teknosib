@@ -12,8 +12,8 @@ using Teknosib.DataAccess.EntitiyFramework;
 namespace Teknosib.DataAccess.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20250703165935_AfterAddingBaseEntity")]
-    partial class AfterAddingBaseEntity
+    [Migration("20250707150028_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,10 +31,6 @@ namespace Teknosib.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CompanyName")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -42,13 +38,8 @@ namespace Teknosib.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<bool>("IsProfileCompleted")
+                        .HasColumnType("bit");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
@@ -57,11 +48,6 @@ namespace Teknosib.DataAccess.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("ProfileImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -137,6 +123,12 @@ namespace Teknosib.DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<int?>("EmployeeCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Industry")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -393,22 +385,23 @@ namespace Teknosib.DataAccess.Migrations
                     b.ToTable("Tbl_Review", (string)null);
                 });
 
-            modelBuilder.Entity("Teknosib.Entity.Models.SolutionProvider", b =>
+            modelBuilder.Entity("Teknosib.Entity.Models.SolutionProviderBase", b =>
                 {
-                    b.Property<Guid>("SolutionProviderId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("AverageRating")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CompletedProjects")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ExperienceYear")
@@ -416,35 +409,120 @@ namespace Teknosib.DataAccess.Migrations
 
                     b.Property<string>("ExpertiseAreas")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PortfolioUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<string>("TaxNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TotalReviews")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("VerificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SolutionProviderBase");
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("Teknosib.Entity.Models.BusinessProvider", b =>
+                {
+                    b.HasBaseType("Teknosib.Entity.Models.SolutionProviderBase");
+
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OfficialAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhysicalAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PortfolioUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TaxNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TeamSize")
+                        .HasColumnType("int");
+
                     b.Property<string>("WebSite")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SolutionProviderId");
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.ToTable("Tbl_BusinessProvider", (string)null);
+                });
+
+            modelBuilder.Entity("Teknosib.Entity.Models.IndividualProvider", b =>
+                {
+                    b.HasBaseType("Teknosib.Entity.Models.SolutionProviderBase");
+
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Biography")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Certifications")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Education")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("GitHubUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("LinkedInUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PortfolioUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TCKN")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.HasIndex("AppUserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
 
-                    b.ToTable("Tbl_SolutionProvider", (string)null);
+                    b.ToTable("Tbl_IndividualProvider", (string)null);
                 });
 
             modelBuilder.Entity("Teknosib.Entity.Models.Company", b =>
@@ -490,7 +568,7 @@ namespace Teknosib.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Teknosib.Entity.Models.SolutionProvider", "SolutionProvider")
+                    b.HasOne("Teknosib.Entity.Models.SolutionProviderBase", "SolutionProviderBase")
                         .WithMany("Project")
                         .HasForeignKey("SolutionProviderId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -500,7 +578,7 @@ namespace Teknosib.DataAccess.Migrations
 
                     b.Navigation("Problem");
 
-                    b.Navigation("SolutionProvider");
+                    b.Navigation("SolutionProviderBase");
                 });
 
             modelBuilder.Entity("Teknosib.Entity.Models.Proposal", b =>
@@ -511,7 +589,7 @@ namespace Teknosib.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Teknosib.Entity.Models.SolutionProvider", "SolutionProvider")
+                    b.HasOne("Teknosib.Entity.Models.SolutionProviderBase", "SolutionProviderBase")
                         .WithMany("Proposal")
                         .HasForeignKey("SolutionProviderId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -519,7 +597,7 @@ namespace Teknosib.DataAccess.Migrations
 
                     b.Navigation("Problem");
 
-                    b.Navigation("SolutionProvider");
+                    b.Navigation("SolutionProviderBase");
                 });
 
             modelBuilder.Entity("Teknosib.Entity.Models.Review", b =>
@@ -549,12 +627,35 @@ namespace Teknosib.DataAccess.Migrations
                     b.Navigation("Reviewer");
                 });
 
-            modelBuilder.Entity("Teknosib.Entity.Models.SolutionProvider", b =>
+            modelBuilder.Entity("Teknosib.Entity.Models.BusinessProvider", b =>
                 {
                     b.HasOne("Teknosib.Entity.Models.AppUser", "AppUser")
-                        .WithOne("SolutionProvider")
-                        .HasForeignKey("Teknosib.Entity.Models.SolutionProvider", "AppUserId")
+                        .WithOne("BusinessProvider")
+                        .HasForeignKey("Teknosib.Entity.Models.BusinessProvider", "AppUserId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Teknosib.Entity.Models.SolutionProviderBase", null)
+                        .WithOne()
+                        .HasForeignKey("Teknosib.Entity.Models.BusinessProvider", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Teknosib.Entity.Models.IndividualProvider", b =>
+                {
+                    b.HasOne("Teknosib.Entity.Models.AppUser", "AppUser")
+                        .WithOne("IndividualProvider")
+                        .HasForeignKey("Teknosib.Entity.Models.IndividualProvider", "AppUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Teknosib.Entity.Models.SolutionProviderBase", null)
+                        .WithOne()
+                        .HasForeignKey("Teknosib.Entity.Models.IndividualProvider", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -562,13 +663,15 @@ namespace Teknosib.DataAccess.Migrations
 
             modelBuilder.Entity("Teknosib.Entity.Models.AppUser", b =>
                 {
+                    b.Navigation("BusinessProvider");
+
                     b.Navigation("Company");
+
+                    b.Navigation("IndividualProvider");
 
                     b.Navigation("ReviewWritten");
 
                     b.Navigation("ReviewsRecevid");
-
-                    b.Navigation("SolutionProvider");
                 });
 
             modelBuilder.Entity("Teknosib.Entity.Models.Category", b =>
@@ -599,7 +702,7 @@ namespace Teknosib.DataAccess.Migrations
                     b.Navigation("Review");
                 });
 
-            modelBuilder.Entity("Teknosib.Entity.Models.SolutionProvider", b =>
+            modelBuilder.Entity("Teknosib.Entity.Models.SolutionProviderBase", b =>
                 {
                     b.Navigation("Project");
 

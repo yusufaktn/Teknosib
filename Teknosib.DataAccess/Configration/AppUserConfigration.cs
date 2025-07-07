@@ -19,12 +19,6 @@ namespace Teknosib.DataAccess.Configration
 
             builder.HasKey(x=>x.AppUserId);
             builder.HasIndex(x=>x.Email).IsUnique();
-
-
-            builder.Property(x=>x.FirstName).HasMaxLength(100);
-            builder.Property(x=>x.LastName).HasMaxLength(100);
-            builder.Property(x=>x.CompanyName).HasMaxLength(200);
-            builder.Property(x=>x.PhoneNumber).HasMaxLength(13).IsRequired();
             builder.Property(x=>x.PasswordHash).IsRequired();
             builder.Property(x=>x.PasswordSalt).IsRequired();
 
@@ -33,12 +27,6 @@ namespace Teknosib.DataAccess.Configration
             builder.HasOne(x => x.Company)
                 .WithOne(x => x.AppUser)
                 .HasForeignKey<Company>(x => x.AppUserId);
-
-
-            builder.HasOne(x=>x.SolutionProvider)
-                .WithOne(x=>x.AppUser)
-                .HasForeignKey<SolutionProviderBase>(x => x.AppUserId);
-
 
         }
     }

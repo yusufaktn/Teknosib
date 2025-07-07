@@ -9,8 +9,9 @@ namespace Teknosib.Entity.Models
 {
     public abstract class SolutionProviderBase:BaseEntitiy
     {
-        
-        public Guid AppUserId { get; set; }
+
+        public Guid Id { get; set; }
+       
 
         public string ExpertiseAreas { get; set; }//Uzmanlık alanı veya hangi alanda çözüm sunduğu alan
         public int ExperienceYear { get; set; }//Deyneyim yılı

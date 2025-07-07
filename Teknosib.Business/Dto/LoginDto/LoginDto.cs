@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Teknosib.Business.Dto.AppUser
+namespace Teknosib.Business.Dto.LoginDto
 {
     public class LoginDto
     {
         public string Email { get; set; }
         public string Password { get; set; }
+
     }
 }

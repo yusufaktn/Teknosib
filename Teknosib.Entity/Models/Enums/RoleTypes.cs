@@ -11,7 +11,8 @@ namespace Teknosib.Entity.Models.Enums
         SuperAdmin,
         Admin,
         Business,
-        SolutionProvider,
+        IndividualProvider,
+        BusinessProivder,
         KosgebOfficial,
         Individual
     }

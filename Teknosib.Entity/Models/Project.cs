@@ -24,7 +24,7 @@ namespace Teknosib.Entity.Models
 
 
         public virtual Problem Problem { get; set; }
-        public virtual SolutionProviderBase SolutionProvider { get; set; }
+        public virtual SolutionProviderBase SolutionProviderBase { get; set; }
         public virtual KosgebSupport? KosgebSupport { get; set; }
         public virtual Review? Review { get; set; }
 

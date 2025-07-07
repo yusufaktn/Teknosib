@@ -9,9 +9,9 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.Repository.Repo
 {
-    public class SolutionProviderRepository : GenericRepository<SolutionProviderBase>, ISolutionProviderRepository
+    public class IndividualProviderRepository : GenericRepository<IndividualProvider>, IindividualProviderRepository
     {
-        public SolutionProviderRepository(MyContext context) : base(context)
+        public IndividualProviderRepository(MyContext context) : base(context)
         {
         }
     }

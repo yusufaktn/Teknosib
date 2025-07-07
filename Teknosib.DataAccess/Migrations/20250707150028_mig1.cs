@@ -12,18 +12,38 @@ namespace Teknosib.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "SolutionProviderBase",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExpertiseAreas = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExperienceYear = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AverageRating = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalReviews = table.Column<int>(type: "int", nullable: false),
+                    CompletedProjects = table.Column<int>(type: "int", nullable: false),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false),
+                    VerificationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SolutionProviderBase", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tbl_AppUser",
                 columns: table => new
                 {
                     AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CompanyName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    IsProfileCompleted = table.Column<bool>(type: "bit", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -69,6 +89,37 @@ namespace Teknosib.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tbl_BusinessProvider",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TaxNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OfficialAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhysicalAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WebSite = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeamSize = table.Column<int>(type: "int", nullable: true),
+                    PortfolioUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tbl_BusinessProvider", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tbl_BusinessProvider_SolutionProviderBase_Id",
+                        column: x => x.Id,
+                        principalTable: "SolutionProviderBase",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tbl_BusinessProvider_Tbl_AppUser_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "Tbl_AppUser",
+                        principalColumn: "AppUserId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tbl_Company",
                 columns: table => new
                 {
@@ -78,7 +129,12 @@ namespace Teknosib.DataAccess.Migrations
                     TaxNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     WebSite = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true)
+                    Industry = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    EmployeeCount = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,25 +148,32 @@ namespace Teknosib.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tbl_SolutionProvider",
+                name: "Tbl_IndividualProvider",
                 columns: table => new
                 {
-                    SolutionProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ExpertiseAreas = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ExperienceYear = table.Column<int>(type: "int", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    TCKN = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    Biography = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Education = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Certifications = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PortfolioUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaxNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WebSite = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LinkedInUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GitHubUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tbl_SolutionProvider", x => x.SolutionProviderId);
+                    table.PrimaryKey("PK_Tbl_IndividualProvider", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tbl_SolutionProvider_Tbl_AppUser_AppUserId",
+                        name: "FK_Tbl_IndividualProvider_SolutionProviderBase_Id",
+                        column: x => x.Id,
+                        principalTable: "SolutionProviderBase",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tbl_IndividualProvider_Tbl_AppUser_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "Tbl_AppUser",
                         principalColumn: "AppUserId",
@@ -171,6 +234,12 @@ namespace Teknosib.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Tbl_Project", x => x.ProjectId);
                     table.ForeignKey(
+                        name: "FK_Tbl_Project_SolutionProviderBase_SolutionProviderId",
+                        column: x => x.SolutionProviderId,
+                        principalTable: "SolutionProviderBase",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Tbl_Project_Tbl_KosgebSupport_KosgebSupportId",
                         column: x => x.KosgebSupportId,
                         principalTable: "Tbl_KosgebSupport",
@@ -181,12 +250,6 @@ namespace Teknosib.DataAccess.Migrations
                         column: x => x.ProblemId,
                         principalTable: "Tbl_Problem",
                         principalColumn: "ProblemId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tbl_Project_Tbl_SolutionProvider_SolutionProviderId",
-                        column: x => x.SolutionProviderId,
-                        principalTable: "Tbl_SolutionProvider",
-                        principalColumn: "SolutionProviderId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -209,16 +272,16 @@ namespace Teknosib.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Tbl_Proposal", x => x.ProposalId);
                     table.ForeignKey(
+                        name: "FK_Tbl_Proposal_SolutionProviderBase_SolutionProviderId",
+                        column: x => x.SolutionProviderId,
+                        principalTable: "SolutionProviderBase",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Tbl_Proposal_Tbl_Problem_ProblemId",
                         column: x => x.ProblemId,
                         principalTable: "Tbl_Problem",
                         principalColumn: "ProblemId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tbl_Proposal_Tbl_SolutionProvider_SolutionProviderId",
-                        column: x => x.SolutionProviderId,
-                        principalTable: "Tbl_SolutionProvider",
-                        principalColumn: "SolutionProviderId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -266,10 +329,24 @@ namespace Teknosib.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tbl_BusinessProvider_AppUserId",
+                table: "Tbl_BusinessProvider",
+                column: "AppUserId",
+                unique: true,
+                filter: "[AppUserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tbl_Company_AppUserId",
                 table: "Tbl_Company",
                 column: "AppUserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tbl_IndividualProvider_AppUserId",
+                table: "Tbl_IndividualProvider",
+                column: "AppUserId",
+                unique: true,
+                filter: "[AppUserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tbl_Problem_CategoryId",
@@ -324,17 +401,17 @@ namespace Teknosib.DataAccess.Migrations
                 name: "IX_Tbl_Review_ReviewerId",
                 table: "Tbl_Review",
                 column: "ReviewerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tbl_SolutionProvider_AppUserId",
-                table: "Tbl_SolutionProvider",
-                column: "AppUserId",
-                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Tbl_BusinessProvider");
+
+            migrationBuilder.DropTable(
+                name: "Tbl_IndividualProvider");
+
             migrationBuilder.DropTable(
                 name: "Tbl_Proposal");
 
@@ -345,13 +422,13 @@ namespace Teknosib.DataAccess.Migrations
                 name: "Tbl_Project");
 
             migrationBuilder.DropTable(
+                name: "SolutionProviderBase");
+
+            migrationBuilder.DropTable(
                 name: "Tbl_KosgebSupport");
 
             migrationBuilder.DropTable(
                 name: "Tbl_Problem");
-
-            migrationBuilder.DropTable(
-                name: "Tbl_SolutionProvider");
 
             migrationBuilder.DropTable(
                 name: "Tbl_Category");

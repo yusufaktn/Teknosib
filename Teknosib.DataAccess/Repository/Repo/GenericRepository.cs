@@ -35,7 +35,7 @@ namespace Teknosib.DataAccess.Repository.Repo
             entity.Status = false;
             entity.UpdatedDate = DateTime.Now;
             _dbSet.Update(entity);
--
+
         }
 
         

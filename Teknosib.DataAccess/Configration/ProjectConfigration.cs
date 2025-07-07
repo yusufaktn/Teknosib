@@ -31,7 +31,7 @@ namespace Teknosib.DataAccess.Configration
                 .HasForeignKey<Project>(p => p.ProblemId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.SolutionProvider)
+            builder.HasOne(p => p.SolutionProviderBase)
                 .WithMany(p => p.Project)
                 .HasForeignKey(p => p.SolutionProviderId)
                 .OnDelete(DeleteBehavior.Restrict);

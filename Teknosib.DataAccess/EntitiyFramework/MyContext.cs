@@ -25,7 +25,8 @@ namespace Teknosib.DataAccess.EntitiyFramework
         public DbSet<Project> Projects { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<SolutionProviderBase> SolutionProviders { get; set; }
+        public DbSet<IndividualProvider> IndividualProviders { get; set; }
+        public DbSet<BusinessProvider> BusinessProviders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,15 +34,8 @@ namespace Teknosib.DataAccess.EntitiyFramework
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            //modelBuilder.ApplyConfiguration(new AppUserConfigration());
-            //modelBuilder.ApplyConfiguration(new CategoryConfigration());
-            //modelBuilder.ApplyConfiguration(new CompanyConfigration());
-            //modelBuilder.ApplyConfiguration(new KosgebSupportConfigration());
-            //modelBuilder.ApplyConfiguration(new ProblemConfigration());
-            //modelBuilder.ApplyConfiguration(new ProjectConfigration());
-            //modelBuilder.ApplyConfiguration(new ProposalConfigration());
-            //modelBuilder.ApplyConfiguration(new ReviewConfigration());
-            //modelBuilder.ApplyConfiguration(new SolutionProviderConfigration());
+            
+            
         }
 
 

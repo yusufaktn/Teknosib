@@ -17,7 +17,8 @@ public class UnitOfWork : IUnitOfWork
     public IProposalRepository Proposals { get; private set; }
     public IProjectRepository Projects { get; private set; }
     public IReviewRepository Reviews { get; private set; }
-    public ISolutionProviderRepository SolutionProviders { get; private set; }
+    public IindividualProviderRepository Individuals { get; private set; }
+    public IBusinessProviderRepository BusinessProviders { get; set; }
 
     public UnitOfWork(MyContext context)
     {
@@ -32,7 +33,8 @@ public class UnitOfWork : IUnitOfWork
         Proposals = new ProposalRepository(_context);
         Projects = new ProjectRepository(_context);
         Reviews = new ReviewRepository(_context);
-        SolutionProviders = new SolutionProviderRepository(_context);
+        Individuals = new IndividualProviderRepository(_context) ;
+        BusinessProviders = new BusinessProviderRepository(_context) ;
     }
 
     // ... SaveChangesAsync ve DisposeAsync metotları aynı kalacak ...

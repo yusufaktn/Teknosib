@@ -4,11 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Teknosib.Entity.Models
+namespace Teknosib.Business.Dto.RegisterDto
 {
-    public class IndividualProvider:SolutionProviderBase
+    public class RegisterIndividualProviderDto
     {
-        public Guid AppUserId { get; set; }
+        // AppUser alanları
+        public string Email { get; set; }
+        public string Password { get; set; }
+
+        // SolutionProviderBase (ortak) alanlar
+        public string ExpertiseAreas { get; set; }
+        public int ExperienceYear { get; set; }
+        public string Phone { get; set; }
+
+        // IndividualProvider özel alanlar
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string TCKN { get; set; }
@@ -18,7 +27,5 @@ namespace Teknosib.Entity.Models
         public string? PortfolioUrl { get; set; }
         public string? LinkedInUrl { get; set; }
         public string? GitHubUrl { get; set; }
-
-
     }
 }

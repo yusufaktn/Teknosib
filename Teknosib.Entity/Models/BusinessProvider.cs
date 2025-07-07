@@ -8,6 +8,8 @@ namespace Teknosib.Entity.Models
 {
     public class BusinessProvider:SolutionProviderBase
     {
+
+        public Guid AppUserId { get; set; }
         public string CompanyName { get; set; }
         public string TaxNumber { get; set; }//Vergi No 10 haneli
         

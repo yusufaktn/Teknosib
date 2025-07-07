@@ -13,7 +13,8 @@ public interface IUnitOfWork : IAsyncDisposable
     IProjectRepository Projects { get; }
     IProposalRepository Proposals { get; }
     IReviewRepository Reviews { get; }
-    ISolutionProviderRepository SolutionProviders { get; } 
+    IindividualProviderRepository Individuals { get; }
+    IBusinessProviderRepository BusinessProviders { get; }
 
     Task<int> SaveChangesAsync();
 }

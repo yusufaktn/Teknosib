@@ -14,7 +14,6 @@ namespace Teknosib.Entity.Models
         public Guid AppUserId { get; set; }
 
         //Ortak Alanlar
-        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string? ProfileImageUrl { get; set; }
         public byte[] PasswordHash { get; set; }
