@@ -12,7 +12,7 @@ namespace Teknosib.Business.Interface
     {
         Task<string> RegisterBusinessAsync(RegisterBusinessProviderDto dto);
         Task<string> RegisterIndividualAsync(RegisterIndividualProviderDto dto);
-        Task<string> RegisterIndividualAsync(RegisterCompanyDto dto);
+        Task<string> RegisterCompanyAsync(RegisterCompanyDto dto);
         Task<string> LoginAsync(LoginDto dto);
 
 

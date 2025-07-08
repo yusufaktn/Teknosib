@@ -10,7 +10,7 @@ namespace Teknosib.Entity.Models.Enums
     {
         SuperAdmin,
         Admin,
-        Business,
+        Company,
         IndividualProvider,
         BusinessProivder,
         KosgebOfficial,

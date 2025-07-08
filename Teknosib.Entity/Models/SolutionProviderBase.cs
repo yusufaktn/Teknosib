@@ -16,8 +16,8 @@ namespace Teknosib.Entity.Models
         public string ExpertiseAreas { get; set; }//Uzmanlık alanı veya hangi alanda çözüm sunduğu alan
         public int ExperienceYear { get; set; }//Deyneyim yılı
         public string Phone { get; set; }
-        public string  Email { get; set; }
-        public decimal AverageRating { get; set; } = 0;
+        public string?  Email { get; set; }
+        public decimal AverageRating { get; set; } = 0; 
         public int TotalReviews { get; set; } = 0;
         public int CompletedProjects { get; set; } = 0;
 

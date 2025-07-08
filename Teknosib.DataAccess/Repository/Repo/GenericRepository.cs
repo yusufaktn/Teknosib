@@ -38,7 +38,12 @@ namespace Teknosib.DataAccess.Repository.Repo
 
         }
 
-        
+        public async Task<T> GetByFilterAsync(Expression<Func<T, bool>> filter)
+        {
+            
+            return await _dbSet.FirstOrDefaultAsync(filter);
+
+        }
 
         public async Task<T> GetById(Guid id)
         {
@@ -50,17 +55,14 @@ namespace Teknosib.DataAccess.Repository.Repo
             return entity;
         }
 
-        public async Task<List<T>> GetListAll(Expression<Func<T, bool>>? expression = null, bool includeDeleted = false)
+        public async Task<List<T>> GetListAll(bool includeDeleted = false)
         {
             if (includeDeleted == false)
             {
               return await _dbSet.Where(x => x.Status == true).ToListAsync();
             }
 
-            if(expression != null)
-            {
-              return await   _dbSet.Where(expression).ToListAsync();
-            }
+            
 
             return await _dbSet.ToListAsync();
          
