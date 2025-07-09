@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Teknosib.Business.Dto.LoginDto;
 using Teknosib.Business.Dto.RegisterDto;
+using Teknosib.Business.Dto.SharedDto;
 using Teknosib.Business.Interface;
 using Teknosib.DataAccess.EntitiyFramework;
 using Teknosib.Entity.Models;
@@ -29,28 +30,28 @@ namespace Teknosib.Business.Services
             _tokenService = tokenService;
         }
 
-        public async Task<string> LoginAsync(LoginDto dto)
+        public async Task<ResponseDto<string>> LoginAsync(LoginDto dto)
         {
            var user = await _unitOfWork.AppUsers.GetByFilterAsync(u=>u.Email == dto.Email);
             if(user == null)
             {
-
-                return "Geçersiz kullanıcı adı veya şifre";
+                return ResponseDto<string>.Fail("Geçersiz kullanıcı adı veya şifre!",400);
             }
             if (!VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return "Geçersiz kullanıcı adı veya şifre.";
+                return ResponseDto<string>.Fail("Geçersiz kullancı adı veya şifre!", 400);
             }
-            return _tokenService.CreateToken(user);
+            var token = _tokenService.CreateToken(user);
+            return ResponseDto<string>.Success(token, 200);
         }
 
-        public async Task<string> RegisterBusinessAsync(RegisterBusinessProviderDto dto)
+        public async Task<ResponseDto<object>> RegisterBusinessAsync(RegisterBusinessProviderDto dto)
         {
             var existingUser = await _unitOfWork.AppUsers.GetByFilterAsync(x => x.Email == dto.Email);
             if (existingUser != null)
             {
 
-                return "Bu e-posta adresi zaten kullanılıyor";
+                return ResponseDto<object>.Fail("Bu e-posta ile kayıt oluşturulmuş", 400);
 
             }
 
@@ -67,18 +68,18 @@ namespace Teknosib.Business.Services
             await _unitOfWork.BusinessProviders.Add(businessProvider);   
             await _unitOfWork.SaveChangesAsync();
 
-            return "Şirket başarıyla oluşturuldu";
+            return ResponseDto<object>.Success("Şirket çözüm sağlayıcı kaydı başarıyla oluşturuldu.", 200);
 
 
 
         }
 
-        public async Task<string> RegisterIndividualAsync(RegisterIndividualProviderDto dto)
+        public async Task<ResponseDto<object>> RegisterIndividualAsync(RegisterIndividualProviderDto dto)
         {
             var existingUser = await _unitOfWork.AppUsers.GetByFilterAsync(x=>x.Email == dto.Email);
             if (existingUser != null)
             {
-                return "Bu e-posta zaten kullanılıyor.";
+                return ResponseDto<object>.Fail("Bu e-posta ile kayıt oluşturulmuş", 400);
 
             }
 
@@ -95,15 +96,15 @@ namespace Teknosib.Business.Services
             await _unitOfWork.Individuals.Add(individual);
             await _unitOfWork.SaveChangesAsync();
 
-            return "Bireysel çözüm sağlayıcı başarıyla oluşturuldu";
+            return ResponseDto<object>.Success("Bireysel çözüm sağlayıcı kaydı başarıyla oluşturuldu.", 200);
         }
 
-        public async Task<string> RegisterCompanyAsync(RegisterCompanyDto dto)
+        public async Task<ResponseDto<object>> RegisterCompanyAsync(RegisterCompanyDto dto)
         {
             var existingUser = await _unitOfWork.AppUsers.GetByFilterAsync(x => x.Email == dto.Email);
             if (existingUser != null)
             {
-                return "Bu e-posta zaten kullanılıyor.";
+                return ResponseDto<object>.Fail("Bu e-posta ile kayıt oluşturulmuş", 400);
 
             }
 
@@ -120,7 +121,7 @@ namespace Teknosib.Business.Services
             await _unitOfWork.Companies.Add(company);
             await _unitOfWork.SaveChangesAsync();
 
-            return "Bireysel çözüm sağlayıcı başarıyla oluşturuldu";
+            return ResponseDto<object>.Success("Şirket kaydı başarıyla oluşturuldu.", 200);
         }
 
 
