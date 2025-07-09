@@ -21,6 +21,7 @@ namespace Teknosib.DataAccess.Configration
             builder.Property(c=>c.TaxNumber).IsRequired().HasMaxLength(10);
             builder.Property(c=>c.Address).IsRequired().HasMaxLength(200);
             builder.Property(c=>c.Description).HasMaxLength(250);
+            builder.Property(c => c.Industry).HasMaxLength(100);
 
 
             builder.HasOne(c => c.AppUser)

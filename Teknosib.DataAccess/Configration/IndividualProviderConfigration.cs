@@ -21,7 +21,7 @@ namespace Teknosib.DataAccess.Configration
             builder.Property(i=> i.TCKN).IsRequired().HasMaxLength(11);
             builder.Property(i=> i.Biography).IsRequired().HasMaxLength(500);
             builder.Property(i=> i.Education).IsRequired(false);
-            builder.Property(i=> i.Certifications).IsRequired();
+            builder.Property(i=> i.Certifications).IsRequired(false);
             builder.Property(i=> i.PortfolioUrl).IsRequired(false);
             builder.Property(i=> i.LinkedInUrl).IsRequired(false);
             builder.Property(i=> i.GitHubUrl).IsRequired(false);

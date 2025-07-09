@@ -10,6 +10,8 @@ using Teknosib.Business.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 
 namespace Teknosib.Api
@@ -50,7 +52,9 @@ namespace Teknosib.Api
                          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]))
                      };
                  });
-
+            // FluentValidation'ý ve validator'larý projeye ekliyoruz.
+            builder.Services.AddFluentValidationAutoValidation();
+            object value = builder.Services.AddValidatorsFromAssembly(typeof(AuthService).Assembly);
 
 
             builder.Services.AddControllers();

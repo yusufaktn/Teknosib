@@ -16,10 +16,10 @@ namespace Teknosib.DataAccess.Configration
             builder.ToTable("Tbl_BusinessProvider");
             
             
-            builder.Property(bp=>bp.CompanyName).IsRequired();
-            builder.Property(bp=>bp.TaxNumber).IsRequired();
-            builder.Property(bp=>bp.OfficialAddress).IsRequired();
-            builder.Property(bp => bp.PhysicalAddress);
+            builder.Property(bp=>bp.CompanyName).IsRequired().HasMaxLength(250);
+            builder.Property(bp=>bp.TaxNumber).IsRequired().HasMaxLength(10);
+            builder.Property(bp=>bp.OfficialAddress).IsRequired().HasMaxLength(350);
+            builder.Property(bp => bp.PhysicalAddress).HasMaxLength(350);
             builder.Property(bp => bp.WebSite);
             builder.Property(bp => bp.TeamSize);
             builder.Property(bp => bp.PortfolioUrl);

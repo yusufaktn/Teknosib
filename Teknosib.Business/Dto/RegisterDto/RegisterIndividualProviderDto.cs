@@ -23,7 +23,7 @@ namespace Teknosib.Business.Dto.RegisterDto
         public string TCKN { get; set; }
         public string Biography { get; set; }
         public string? Education { get; set; }
-        public string Certifications { get; set; }
+        public string? Certifications { get; set; }
         public string? PortfolioUrl { get; set; }
         public string? LinkedInUrl { get; set; }
         public string? GitHubUrl { get; set; }

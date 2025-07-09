@@ -17,7 +17,9 @@ namespace Teknosib.DataAccess.Configration
 
             builder.ToTable("Tbl_SolutionProviderBase");
 
-            builder.Property(s=>s.Email).IsRequired(false);
+            builder.Property(s=>s.ContentEmail).IsRequired(false);
+            builder.Property(s => s.ExpertiseAreas).IsRequired().HasMaxLength(200);
+            builder.Property(s => s.Phone).IsRequired().HasMaxLength(14);
 
 
         }
