@@ -19,7 +19,7 @@ namespace Teknosib.Business.ValidationRules.Register
 
             RuleFor(c => c.Password)
                 .NotEmpty().WithMessage("Şifre boş geçilemez")
-                .MaximumLength(8).WithMessage("Şifre en az 8 karakter olmalıdır.")
+                .MinimumLength(8).WithMessage("Şifre en az 8 karakter olmalıdır.")
                 .Matches("[A-Z]").WithMessage("Şifrede en az bir büyük harf olmalıdır")
                 .Matches("[a-z]").WithMessage("Şifrede en az bir küçük harf olmalıdır")
                 .Matches("[0-9]").WithMessage("Şifrede en az bir rakam olmalıdır.")

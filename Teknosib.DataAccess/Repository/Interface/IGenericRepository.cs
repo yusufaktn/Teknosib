@@ -10,12 +10,13 @@ namespace Teknosib.DataAccess.Repository.Interface
 {
     public interface IGenericRepository<T> where T : BaseEntitiy
     {
-        Task<List<T>> GetListAll(bool includeDeleted = false);
+        Task<List<T>> GetListAllAsync(bool includeDeleted = false);
         Task<T> GetByFilterAsync(Expression<Func<T, bool>> filter);
-        Task<T> GetById(Guid id);
-        Task Add (T entity);
-        Task Update (T entity);
-        Task Delete (T entity);
+        Task<T> GetByIdAsync(Guid id);
+        Task AddAsync (T entity);
+        Task UpdateAsync (T entity);
+        Task SoftDeleteAsync (T entity);
+        Task HardDeleteAsync (T entity);
 
 
     }

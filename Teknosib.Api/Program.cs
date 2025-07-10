@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FluentValidation.AspNetCore;
 using FluentValidation;
+using Teknosib.DataAccess.Repository.Interface;
+using Teknosib.DataAccess.Repository.Repo;
 
 
 namespace Teknosib.Api
@@ -26,11 +28,17 @@ namespace Teknosib.Api
             builder.Services.AddDbContext<Teknosib.DataAccess.EntitiyFramework.MyContext>(op => op.UseSqlServer(connectionstring));
             builder.Services.AddAutoMapper(typeof(AuthService).Assembly);
             //Business Layer /Service
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
 
             //DataAccess Layer
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
+            
+            
+
+            
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                  .AddJwtBearer(options =>

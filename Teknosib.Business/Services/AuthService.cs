@@ -64,8 +64,8 @@ namespace Teknosib.Business.Services
             var businessProvider = _mapper.Map<BusinessProvider>(dto);
             businessProvider.AppUser = newuser;
 
-            await _unitOfWork.AppUsers.Add(newuser);
-            await _unitOfWork.BusinessProviders.Add(businessProvider);   
+            await _unitOfWork.AppUsers.AddAsync(newuser);
+            await _unitOfWork.BusinessProviders.AddAsync(businessProvider);   
             await _unitOfWork.SaveChangesAsync();
 
             return ResponseDto<object>.Success("Şirket çözüm sağlayıcı kaydı başarıyla oluşturuldu.", 200);
@@ -92,8 +92,8 @@ namespace Teknosib.Business.Services
             var individual = _mapper.Map<IndividualProvider>(dto);
             individual.AppUser = newUser;
 
-            await _unitOfWork.AppUsers.Add(newUser);
-            await _unitOfWork.Individuals.Add(individual);
+            await _unitOfWork.AppUsers.AddAsync(newUser);
+            await _unitOfWork.Individuals.AddAsync(individual);
             await _unitOfWork.SaveChangesAsync();
 
             return ResponseDto<object>.Success("Bireysel çözüm sağlayıcı kaydı başarıyla oluşturuldu.", 200);
@@ -117,8 +117,8 @@ namespace Teknosib.Business.Services
             var company = _mapper.Map<Company>(dto);
             company.AppUser = newUser;
 
-            await _unitOfWork.AppUsers.Add(newUser);
-            await _unitOfWork.Companies.Add(company);
+            await _unitOfWork.AppUsers.AddAsync(newUser);
+            await _unitOfWork.Companies.AddAsync(company);
             await _unitOfWork.SaveChangesAsync();
 
             return ResponseDto<object>.Success("Şirket kaydı başarıyla oluşturuldu.", 200);
