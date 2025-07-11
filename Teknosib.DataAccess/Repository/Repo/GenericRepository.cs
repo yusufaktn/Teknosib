@@ -25,8 +25,8 @@ namespace Teknosib.DataAccess.Repository.Repo
 
         public async Task AddAsync(T entity)
         {
-           await _dbSet.AddAsync(entity);
-            
+            await _dbSet.AddAsync(entity);
+
         }
 
         public async Task SoftDeleteAsync(T entity)
@@ -40,43 +40,47 @@ namespace Teknosib.DataAccess.Repository.Repo
 
         public async Task<T> GetByFilterAsync(Expression<Func<T, bool>> filter)
         {
-            
+
             return await _dbSet.FirstOrDefaultAsync(filter);
 
         }
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            var entity =  await _dbSet.FindAsync(id);
-            if(entity == null || entity.Status==false)
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null || entity.Status == false)
             {
                 return null;
             }
             return entity;
         }
 
-        public async Task<List<T>> GetListAllAsync(bool includeDeleted = false)
+        public async Task<List<T>> GetListAllAsync()
         {
-            if (includeDeleted == false)
-            {
-              return await _dbSet.Where(x => x.Status == true).ToListAsync();
-            }       
-
-            return await _dbSet.ToListAsync();
-         
+            return await _dbSet.Where(x => x.Status == true).ToListAsync();
         }
+
+
+        public async Task<List<T>> GetListIncludingStatusFalse()
+        {
+            return await _dbSet.ToListAsync();
+        }
+
+
+
+
         //Bu method ile istersek statusu false olanlarla birlikte tüm katırları istersek şart vermeden sadece true olanları getiriyoruz.
 
         public async Task UpdateAsync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             entity.UpdatedDate = DateTime.Now;
-            
+
         }
 
         public async Task HardDeleteAsync(T entity)
         {
-             _dbSet.Remove(entity);
+            _dbSet.Remove(entity);
         }
     }
 }

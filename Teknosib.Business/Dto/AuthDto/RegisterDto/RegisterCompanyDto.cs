@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Teknosib.Business.Dto.RegisterDto
+namespace Teknosib.Business.Dto.AuthDto.RegisterDto
 {
     public class RegisterCompanyDto
     {

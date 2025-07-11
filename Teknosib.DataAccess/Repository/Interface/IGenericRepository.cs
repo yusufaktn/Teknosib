@@ -10,7 +10,9 @@ namespace Teknosib.DataAccess.Repository.Interface
 {
     public interface IGenericRepository<T> where T : BaseEntitiy
     {
-        Task<List<T>> GetListAllAsync(bool includeDeleted = false);
+        Task<List<T>> GetListAllAsync();
+        Task<List<T>> GetListIncludingStatusFalse();
+
         Task<T> GetByFilterAsync(Expression<Func<T, bool>> filter);
         Task<T> GetByIdAsync(Guid id);
         Task AddAsync (T entity);

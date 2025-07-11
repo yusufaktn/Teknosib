@@ -1,43 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Teknosib.Business.Dto.SharedDto
+﻿public class ResponseDto<T>
 {
-    public class ResponseDto<T>
+    public T Data { get; set; }
+    public string Message { get; set; }
+    public bool IsSuccess { get; set; }
+    public int StatusCode { get; set; }
+    public List<string> Errors { get; set; }
+
+    public static ResponseDto<T> Success(T data, int statusCode, string message = "")
     {
-        public T Data { get; set; }
-        public bool IsSuccess { get; set; }
-        public int  StatusCode { get; set; }
-        public List<string> Errors { get; set; }
+        return new ResponseDto<T> { Data = data, StatusCode = statusCode, IsSuccess = true, Message = message };
+    }
 
+    public static ResponseDto<T> Fail(List<string> errors, int statusCode)
+    {
+        return new ResponseDto<T> { Errors = errors, StatusCode = statusCode, IsSuccess = false };
+    }
 
-        public static ResponseDto<T> Success(T data, int statuscode)
-        {
-            return new ResponseDto<T> { Data = data, StatusCode = statuscode, IsSuccess = true };
-
-        }
-        public static ResponseDto<T> Success(int statusCode)
-        {
-            return new ResponseDto<T> { Data = default(T), StatusCode = statusCode, IsSuccess = true };
-        }
-
-        
-        public static ResponseDto<T> Fail(List<string> errors, int statusCode)
-        {
-            return new ResponseDto<T> { Errors = errors, StatusCode = statusCode, IsSuccess = false };
-        }
-
-        public static ResponseDto<T> Fail(string error, int statusCode)
-        {
-            return new ResponseDto<T> { Errors = new List<string> { error }, StatusCode = statusCode, IsSuccess = false };
-        }
-
-
-
-
-
+    public static ResponseDto<T> Fail(string error, int statusCode)
+    {
+        return new ResponseDto<T> { Errors = new List<string> { error }, StatusCode = statusCode, IsSuccess = false };
     }
 }

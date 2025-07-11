@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Teknosib.Business.Dto.RegisterDto;
+using Teknosib.Business.Dto.AuthDto.RegisterDto;
 using Teknosib.Entity.Models;
 using Teknosib.Entity.Models.Enums;
 
-namespace Teknosib.Business.Mapper.Register
+namespace Teknosib.Business.Mapper.AuthMap.RegisterMap
 {
     public class RegisterIndividualProviderProfile: Profile
     {

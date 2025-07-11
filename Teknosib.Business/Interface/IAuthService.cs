@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Teknosib.Business.Dto.LoginDto;
-using Teknosib.Business.Dto.RegisterDto;
-using Teknosib.Business.Dto.SharedDto;
+using Teknosib.Business.Dto.AuthDto.LoginDto;
+using Teknosib.Business.Dto.AuthDto.RegisterDto;
+
 
 namespace Teknosib.Business.Interface
 {

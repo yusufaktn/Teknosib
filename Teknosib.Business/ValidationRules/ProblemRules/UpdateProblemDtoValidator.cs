@@ -1,0 +1,42 @@
+﻿using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Teknosib.Business.Dto.ProblemDto;
+
+
+namespace Teknosib.Business.ValidationRules.ProblemRules
+{
+    public class UpdateProblemDtoValidator : AbstractValidator<UpdateProblemDto>
+    {
+        public UpdateProblemDtoValidator()
+        {
+            RuleFor(p => p.Title)
+                .NotEmpty().WithMessage("Başlık alanı boş geçilemez.")
+                .MinimumLength(5).WithMessage("Başlık en az 5 karakter olmalıdır.")
+                .MaximumLength(50).WithMessage("Başlık en fazla 50 karakter olabilir.");
+
+            RuleFor(p => p.Description)
+                .NotEmpty().WithMessage("Açıklama alanı boş geçilemez.")
+                .MinimumLength(20).WithMessage("Açıklama en az 20 karakter olmalıdır.")
+                .MaximumLength(250).WithMessage("Açıklama en fazla 250 karakter olmalıdır.");
+
+            RuleFor(p => p.CategoryId)
+                .NotEmpty().WithMessage("Kategori seçimi zorunludur.");
+
+            // Enum değeri için doğrulama
+            RuleFor(p => p.P_Status)
+                .IsInEnum().WithMessage("Geçerli bir problem durumu belirtilmelidir.");
+
+            RuleFor(p => p.MinBudget)
+                .GreaterThan(0).When(p => p.MinBudget.HasValue)
+                .WithMessage("Minimum bütçe 0'dan büyük olmalıdır.");
+
+            RuleFor(p => p.MaxBudget)
+                .GreaterThan(p => p.MinBudget).When(p => p.MaxBudget.HasValue && p.MinBudget.HasValue)
+                .WithMessage("Maksimum bütçe, minimum bütçeden büyük olmalıdır.");
+        }
+    }
+}

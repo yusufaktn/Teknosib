@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Teknosib.Business.Dto.LoginDto;
-using Teknosib.Business.Dto.RegisterDto;
+using Teknosib.Business.Dto.AuthDto.LoginDto;
+using Teknosib.Business.Dto.AuthDto.RegisterDto;
 using Teknosib.Business.Interface;
 
 namespace Teknosib.Api.Controllers.Auth

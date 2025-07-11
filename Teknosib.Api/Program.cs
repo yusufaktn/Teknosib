@@ -3,7 +3,6 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Teknosib.Business.Mapper;
-using Teknosib.Business.Mapper.Register;
 using Teknosib.Business;
 using Teknosib.Business.Services;
 using Teknosib.Business.Interface;
@@ -29,6 +28,7 @@ namespace Teknosib.Api
             builder.Services.AddAutoMapper(typeof(AuthService).Assembly);
             //Business Layer /Service
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IProblemService, ProblemService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
 

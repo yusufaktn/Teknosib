@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Teknosib.Business.Dto.RegisterDto;
+using Teknosib.Business.Dto.AuthDto.RegisterDto;
 
-namespace Teknosib.Business.ValidationRules.Register
+namespace Teknosib.Business.ValidationRules.AuthRules.RegisterRules
 {
     public class RegisterCompanyDtoValidator:AbstractValidator<RegisterCompanyDto>
     {

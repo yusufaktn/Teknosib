@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Teknosib.Business.Dto.RegisterDto;
+using Teknosib.Business.Dto.AuthDto.RegisterDto;
 
-namespace Teknosib.Business.ValidationRules.Register
+namespace Teknosib.Business.ValidationRules.AuthRules.RegisterRules
 {
-    public class RegisterIndividualProviderValidator : AbstractValidator<RegisterIndividualProviderDto>
+    public class RegisterBusinessProviderDtoValidator : AbstractValidator<RegisterBusinessProviderDto>
     {
-        public RegisterIndividualProviderValidator()
+        public RegisterBusinessProviderDtoValidator()
         {
-            RuleFor(i => i.Email)
+            RuleFor(b => b.Email)
                 .NotEmpty().WithMessage("Email boş geçilemez.")
                 .EmailAddress().WithMessage("Geçerli bir email adresi girin");
 
-            RuleFor(i => i.Password)
+            RuleFor(b => b.Password)
                 .NotEmpty().WithMessage("Şifre boş geçilemez")
                 .MinimumLength(8).WithMessage("Şifre en az 8 karakter olmalıdır.")
                 .Matches("[A-Z]").WithMessage("Şifrede en az bir büyük harf olmalıdır")
@@ -36,31 +36,26 @@ namespace Teknosib.Business.ValidationRules.Register
                 .NotEmpty().WithMessage("Telefon numarası boş geçilemez")
                 .MaximumLength(14).WithMessage("Telfon formatına uygun değil");
 
+            RuleFor(b => b.CompanyName)
+                .NotEmpty().WithMessage("Şirket ismi boş geçilemez")
+                .MaximumLength(250).WithMessage("Şirket ismi en fazla 250 karakter olabilir.");
 
-            RuleFor(i => i.FirstName)
-                .NotEmpty().WithMessage("Ad alanı boş geçilemez.")
-                .MaximumLength(150).WithMessage("Ad  150 karakteri geçemez.");
+            RuleFor(b => b.TaxNumber)
+               .NotEmpty().WithMessage("Vergi numarası boş geçilemez.")
+               .MaximumLength(10).WithMessage("Vergi numarası en fazla 10 karakter olabilir.");
 
-            RuleFor(i => i.LastName)
-                .NotEmpty().WithMessage("Soyad boş geçilemez.")
-                .MaximumLength(150).WithMessage("Soyad 150 karakteri geçemez.");
 
-            RuleFor(i => i.TCKN)
-                .NotEmpty().WithMessage("TCKN boş geçilemez.")
-                .MaximumLength(11).WithMessage("TCKN en fazla 11 karakter olabilir.")
-                .Must(BeAllDigits).WithMessage("TCKN sadece rakam olabilir.");
+            RuleFor(b => b.OfficialAddress)
+                .NotEmpty().WithMessage("Offical adres boş geçilemez")
+                .MaximumLength(350).WithMessage("Offical adres en fazla 350 karakter olabilir.");
 
-            RuleFor(b => b.Biography)
-                .NotEmpty().WithMessage("Biyografi alanı boş bırakılamaz.")
-                .MaximumLength(500).WithMessage("Biyografi alanı 500 karakteri geçemez.");
+            RuleFor(b => b.PhysicalAddress)
+                .NotEmpty().WithMessage("Fizikse adres boş geçilemez")
+                .MaximumLength(350).WithMessage("Fiziksel adres en fazla 350 karakter olabilir.");
+
+
 
 
         }
-        private bool BeAllDigits(string tckn)
-        {
-            return tckn.All(char.IsDigit);
-        }
-
     }
 }
-

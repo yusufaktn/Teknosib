@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Teknosib.Business.Dto.CategoryDto;
-using Teknosib.Business.Dto.SharedDto;
 using Teknosib.Business.Interface;
 using Teknosib.DataAccess.Repository.Repo;
 using Teknosib.Entity.Models;
@@ -83,11 +82,11 @@ namespace Teknosib.Business.Services
 
         }
 
-        public async Task<ResponseDto<object>> GetCategoryAllAsync(bool status)
+        public async Task<ResponseDto<object>> GetCategoryAllAsync()
         {
             try
             {
-                var get_category = await _unitOfWork.Categories.GetListAllAsync(status);
+                var get_category = await _unitOfWork.Categories.GetListAllAsync();
                 if(get_category is null || !get_category.Any())
                 {
                     return ResponseDto<object>.Fail("get_category boş değer!!", 404);
@@ -100,6 +99,26 @@ namespace Teknosib.Business.Services
                 return ResponseDto<object>.Fail("Kategoriler getirilirken bir hata oluştu", 500);
             }
 
+        }
+
+        public async Task<ResponseDto<object>> GetCategoryWithStatusFalseAsync()
+        {
+            try
+            {
+                var getcategory = await _unitOfWork.Categories.GetListIncludingStatusFalse();
+                if (getcategory is null || !getcategory.Any())
+                {
+                    return ResponseDto<object>.Fail("Boş değer!!", 404);
+                }
+
+                var dto_category = _mapper.Map<List<CategoryDto>>(getcategory);
+                return ResponseDto<object>.Success(dto_category, 200);
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseDto<object>.Fail("Kategoriler getirilirken bir hata oluştu", 500);
+            }
         }
 
         public async Task<ResponseDto<object>> HardDeleteCategoryAsync(DeleteCategoryDto hardDeleteCategoryDto)

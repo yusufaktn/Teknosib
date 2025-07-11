@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Teknosib.DataAccess\Teknosib.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dto\CompanyDto\" />
+  </ItemGroup>
+
 </Project>

@@ -39,7 +39,7 @@ namespace Teknosib.Api.Controllers.CategoryController
         public async Task<IActionResult> GetAllCategoryWithStatusFalse()
         {
 
-            var response = await _categoryService.GetCategoryAllAsync(true);
+            var response = await _categoryService.GetCategoryWithStatusFalseAsync();
             if (response.IsSuccess)
             {
                 return Ok(response);
