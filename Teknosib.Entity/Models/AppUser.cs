@@ -12,8 +12,9 @@ namespace Teknosib.Entity.Models
     public class AppUser :BaseEntitiy
     {
         public Guid AppUserId { get; set; }
-
-        //Ortak Alanlar
+        public Guid LegalEntityId { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
         public string Email { get; set; }
         public string? ProfileImageUrl { get; set; }
         public byte[] PasswordHash { get; set; }
@@ -22,24 +23,10 @@ namespace Teknosib.Entity.Models
         public RoleTypes Role { get; set; }
 
 
-       
-
         //Navigation
-        public virtual Company? Company { get; set; }
-        public  virtual IndividualProvider? IndividualProvider { get; set; }
-        public  virtual BusinessProvider? BusinessProvider { get; set; }
-
+        public virtual LegalEntity LegalEntity { get; set; }
         public  virtual ICollection <Review> ReviewWritten { get; set; }
         public  virtual ICollection<Review> ReviewsRecevid { get; set; }
-
-
-
-
-
-
-
-
-
 
     }
 

@@ -14,7 +14,7 @@ namespace Teknosib.DataAccess.Repository.Repo
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntitiy
     {
         private readonly MyContext _context;
-        private readonly DbSet<T> _dbSet;
+        protected readonly DbSet<T> _dbSet;
         public GenericRepository(MyContext context)
         {
             _context = context;
@@ -47,12 +47,8 @@ namespace Teknosib.DataAccess.Repository.Repo
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            var entity = await _dbSet.FindAsync(id);
-            if (entity == null || entity.Status == false)
-            {
-                return null;
-            }
-            return entity;
+            return await _dbSet.FindAsync(id);      
+           
         }
 
         public async Task<List<T>> GetListAllAsync()
@@ -66,10 +62,6 @@ namespace Teknosib.DataAccess.Repository.Repo
             return await _dbSet.ToListAsync();
         }
 
-
-
-
-        //Bu method ile istersek statusu false olanlarla birlikte tüm katırları istersek şart vermeden sadece true olanları getiriyoruz.
 
         public async Task UpdateAsync(T entity)
         {

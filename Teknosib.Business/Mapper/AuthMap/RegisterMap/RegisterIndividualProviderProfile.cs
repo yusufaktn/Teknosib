@@ -17,7 +17,7 @@ namespace Teknosib.Business.Mapper.AuthMap.RegisterMap
             CreateMap<RegisterIndividualProviderDto, AppUser>()
                 .ForMember(x => x.Role, o => o.MapFrom(y => RoleTypes.IndividualProvider));
 
-            CreateMap<RegisterIndividualProviderDto, SolutionProviderBase>();
+            CreateMap<RegisterIndividualProviderDto, LegalEntity>();
             CreateMap<RegisterIndividualProviderDto, IndividualProvider>();
 
         }

@@ -18,15 +18,19 @@ namespace Teknosib.DataAccess.Configration
 
 
             builder.HasKey(x=>x.AppUserId);
+            builder.Property(x=>x.LegalEntityId).IsRequired();
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.Surname).IsRequired().HasMaxLength(100);
+
             builder.HasIndex(x=>x.Email).IsUnique();
             builder.Property(x=>x.PasswordHash).IsRequired();
             builder.Property(x=>x.PasswordSalt).IsRequired();
 
 
-            //(one to one)
-            builder.HasOne(x => x.Company)
-                .WithOne(x => x.AppUser)
-                .HasForeignKey<Company>(x => x.AppUserId);
+            
+            builder.HasOne(x => x.LegalEntity)
+                .WithMany(x => x.AppUsers)
+                .HasForeignKey(x => x.LegalEntityId);
 
         }
     }

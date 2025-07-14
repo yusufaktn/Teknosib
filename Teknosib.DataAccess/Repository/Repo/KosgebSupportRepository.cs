@@ -9,7 +9,7 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.Repository.Repo
 {
-    public class KosgebSupportRepository : GenericRepository<KosgebSupport>, IKosgebSupportRepository
+    public class KosgebSupportRepository : GenericRepository<SupportCall>, IKosgebSupportRepository
     {
         public KosgebSupportRepository(MyContext context) : base(context)
         {

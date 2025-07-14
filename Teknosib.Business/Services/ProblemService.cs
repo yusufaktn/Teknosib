@@ -10,7 +10,7 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.Business.Services
 {
-    
+
     public class ProblemService : IProblemService
     {
 
@@ -31,11 +31,11 @@ namespace Teknosib.Business.Services
                 await _unitOfWork.Problems.AddAsync(mapping_problem);
                 await _unitOfWork.SaveChangesAsync();
                 var problem_dto = _mapper.Map<ProblemDto>(mapping_problem);
-                return ResponseDto<ProblemDto>.Success(problem_dto, 200,"Problem oluşturma işlemi başarılı");
+                return ResponseDto<ProblemDto>.Success(problem_dto, 200, "Problem oluşturma işlemi başarılı");
             }
             catch (Exception ex)
             {
-                return ResponseDto<ProblemDto>.Fail("Problem oluşturulurken bir hata oluştu. "+ex.Message,500);
+                return ResponseDto<ProblemDto>.Fail("Problem oluşturulurken bir hata oluştu. " + ex.Message, 500);
             }
         }
 
@@ -44,18 +44,18 @@ namespace Teknosib.Business.Services
             try
             {
                 var getproblem = await _unitOfWork.Problems.GetByIdAsync(deleteProblemDto.ProblemId);
-                if(getproblem is null)
+                if (getproblem is null)
                 {
-                    return ResponseDto<object>.Fail("Silinecek Problem bulunamadı.", 404);
+                    return ResponseDto<object>.Fail("Problem bulunamadı.", 404);
                 }
                 await _unitOfWork.Problems.SoftDeleteAsync(getproblem);
                 await _unitOfWork.SaveChangesAsync();
                 return ResponseDto<object>.Success("Silme işlemi başarılı", 200);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return ResponseDto<object>.Fail("Silme işlemi sırasında bir hata oluştu "+ex.Message, 500);
+                return ResponseDto<object>.Fail("Silme işlemi sırasında bir hata oluştu " + ex.Message, 500);
             }
         }
 
@@ -64,40 +64,134 @@ namespace Teknosib.Business.Services
             try
             {
                 var getproblem = await _unitOfWork.Problems.GetByIdAsync(id);
-                if(getproblem is null)
+                if (getproblem is null || getproblem.Status ==false)
                 {
                     return ResponseDto<ProblemDto>.Fail("Aranan Problem bulunamadı.", 404);
                 }
-               var mapping_problem=  _mapper.Map<ProblemDto>(getproblem);
-                return ResponseDto<ProblemDto>.Success(mapping_problem, 200,id+" Problem başarıyla getirildi.");
-                
+                var mapping_problem = _mapper.Map<ProblemDto>(getproblem);
+                return ResponseDto<ProblemDto>.Success(mapping_problem, 200, id + " Problem başarıyla getirildi.");
+
 
 
             }
             catch (Exception ex)
             {
-                return ResponseDto<ProblemDto>.Fail("Problem getirme sırasında bir hata oluştu "+ex.Message, 500);
+                return ResponseDto<ProblemDto>.Fail("Problem getirme sırasında bir hata oluştu " + ex.Message, 500);
             }
         }
 
-        public Task<ResponseDto<ProblemDto>> GetProblemListAsync()
+        public async Task<ResponseDto<List<ProblemDto>>> GetProblemByCategoryIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var problem = await _unitOfWork.Problems.GetProblemByCategoryIdAsync(id);
+                if(problem is null)
+                {
+                    return ResponseDto<List<ProblemDto>>.Fail("Bu kategoride problem bulunamadı", 404);
+                }
+
+                var mappingdto = _mapper.Map<List<ProblemDto>>(problem);
+                return ResponseDto<List<ProblemDto>>.Success(mappingdto, 200, "Kategoriye göre problem başarıyla getirildi");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return ResponseDto<List<ProblemDto>>.Fail("Kategoriye göre problem getirilirken bir hata oluştu" + ex.Message, 500);
+            }
+                      
+
         }
 
-        public Task<ResponseDto<ProblemDto>> GetProblemWithStatusFalseAsync()
+        public async Task<ResponseDto<List<ProblemDto>>> GetProblemListAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getproblem = await _unitOfWork.Problems.GetListAllAsync();
+                if (getproblem is null)
+                {
+                    return ResponseDto<List<ProblemDto>>.Fail("Problemler bulunamadı.", 404);
+                }
+                var mappingdto = _mapper.Map<List<ProblemDto>>(getproblem);
+                return ResponseDto<List<ProblemDto>>.Success(mappingdto,200," Problemler başarıyla getirildi.");              
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseDto<List<ProblemDto>>.Fail("Problemler getirilirken bir hata oluştu. "+ex.Message, 500);
+            }
         }
 
-        public Task<ResponseDto<object>> HardDeleteProblemAsync(DeleteProblemDto deleteProblemDto)
+        public async Task<ResponseDto<List<ProblemDto>>> GetProblemListWithStatusFalseAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getproblem = await _unitOfWork.Problems.GetListIncludingStatusFalse();
+                if (getproblem is null)
+                {
+                    return ResponseDto<List<ProblemDto>>.Fail("Problemler bulunamadı.", 404);
+                }
+                var mappingdto = _mapper.Map<List<ProblemDto>>(getproblem);
+                
+                return ResponseDto<List<ProblemDto>>.Success(mappingdto, 200, "Problemler başarıyla getirildi.");
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseDto<List<ProblemDto>>.Fail("Problemler getirilirken bir hata oluştu"+ex.Message, 500);
+
+            }
         }
 
-        public Task<ResponseDto<UpdateProblemDto>> UpdateProblemAsync(UpdateProblemDto updateProblemDto)
+        public async Task<ResponseDto<object>> HardDeleteProblemAsync(DeleteProblemDto deleteProblemDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getproblem = await _unitOfWork.Problems.GetByIdAsync(deleteProblemDto.ProblemId);
+                if (getproblem is null)
+                {
+                    return ResponseDto<object>.Fail("Problem bulunamadı.", 404);
+                }
+                await _unitOfWork.Problems.HardDeleteAsync(getproblem);
+                await _unitOfWork.SaveChangesAsync();
+                return ResponseDto<object>.Success("Problem silme işlemi başarılı.", 200);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return ResponseDto<object>.Fail("Problem silinirken bir hata oluştu."+ex.Message, 500);
+            }
+
+
+
+        }
+
+        public async Task<ResponseDto<UpdateProblemDto>> UpdateProblemAsync(Guid id,UpdateProblemDto updateProblemDto)
+        {
+            try
+            {
+                var getproblem = await _unitOfWork.Problems.GetByIdAsync(id);
+                if(getproblem is null)
+                {
+                    return ResponseDto<UpdateProblemDto>.Fail("Problem bulunamadı.", 404);
+                }
+                var mapingdto = _mapper.Map(updateProblemDto,getproblem);
+                await _unitOfWork.Problems.UpdateAsync(mapingdto);
+                await _unitOfWork.SaveChangesAsync();
+                return ResponseDto<UpdateProblemDto>.Success(updateProblemDto, 200, "Problem başarıyla güncellendi");
+
+            }
+            catch (Exception ex)
+            {
+
+                return ResponseDto<UpdateProblemDto>.Fail("Problem güncellenirken bir hata oluştu"+ex.Message, 500);
+            }
+
+
+
         }
     }
 }

@@ -7,7 +7,7 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.Repository.Interface
 {
-    public interface IKosgebSupportRepository:IGenericRepository<KosgebSupport>
+    public interface IKosgebSupportRepository:IGenericRepository<SupportCall>
     {
     }
 }

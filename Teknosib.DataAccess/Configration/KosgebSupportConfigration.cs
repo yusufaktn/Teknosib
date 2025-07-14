@@ -9,9 +9,9 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.Configration
 {
-    public class KosgebSupportConfigration : IEntityTypeConfiguration<KosgebSupport>
+    public class KosgebSupportConfigration : IEntityTypeConfiguration<SupportCall>
     {
-        public void Configure(EntityTypeBuilder<KosgebSupport> builder)
+        public void Configure(EntityTypeBuilder<SupportCall> builder)
         {
             builder.ToTable("Tbl_KosgebSupport");
 

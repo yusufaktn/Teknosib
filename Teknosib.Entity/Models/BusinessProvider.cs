@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Teknosib.Entity.Models
 {
-    public class BusinessProvider:SolutionProviderBase
+    public class BusinessProvider:LegalEntity
     {
 
         public Guid AppUserId { get; set; }

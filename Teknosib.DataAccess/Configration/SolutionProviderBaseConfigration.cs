@@ -9,9 +9,9 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.Configration
 {
-    public class SolutionProviderBaseConfigration : IEntityTypeConfiguration<SolutionProviderBase>
+    public class SolutionProviderBaseConfigration : IEntityTypeConfiguration<LegalEntity>
     {
-        public void Configure(EntityTypeBuilder<SolutionProviderBase> builder)
+        public void Configure(EntityTypeBuilder<LegalEntity> builder)
         {
 
 

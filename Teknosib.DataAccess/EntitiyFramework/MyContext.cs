@@ -20,13 +20,13 @@ namespace Teknosib.DataAccess.EntitiyFramework
         public DbSet<AppUser> AppUsers{ get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Company>Companies{ get; set; }
-        public DbSet<KosgebSupport>KosgebSupports{ get; set; }
+        public DbSet<SupportCall>SupportCalls{ get; set; }
         public DbSet<Problem> Problems { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<IndividualProvider> IndividualProviders { get; set; }
-        public DbSet<BusinessProvider> BusinessProviders { get; set; }
+        public DbSet<Institution> Institutions { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
