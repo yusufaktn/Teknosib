@@ -44,7 +44,7 @@ namespace Teknosib.Business.Services
             return ResponseDto<string>.Success(token, 200);
         }
 
-        public async Task<ResponseDto<object>> RegisterBusinessAsync(RegisterBusinessProviderDto dto)
+        public async Task<ResponseDto<object>> RegisterIntitutionAsync(RegisterInstitutionDto dto)
         {
             var existingUser = await _unitOfWork.AppUsers.GetByFilterAsync(x => x.Email == dto.Email);
             if (existingUser != null)
@@ -54,26 +54,30 @@ namespace Teknosib.Business.Services
 
             }
 
-            CreatePasswordHash(dto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            CreatePasswordHash(dto.AdminPassword, out byte[] passwordHash, out byte[] passwordSalt);
 
             var newuser = _mapper.Map<AppUser>(dto);
             newuser.PasswordHash = passwordHash;
             newuser.PasswordSalt = passwordSalt;
 
-            var businessProvider = _mapper.Map<BusinessProvider>(dto);
-            businessProvider.AppUser = newuser;
+            var institution = _mapper.Map<Institution>(dto);
+            newuser.LegalEntity = institution;
+
+            var address = _mapper.Map<Address>(dto);
+            institution.Address = address;
+
+
 
             await _unitOfWork.AppUsers.AddAsync(newuser);
-            await _unitOfWork.BusinessProviders.AddAsync(businessProvider);   
+            await _unitOfWork.Addresses.AddAsync(address);
+            await _unitOfWork.Institutions.AddAsync(institution);
             await _unitOfWork.SaveChangesAsync();
 
             return ResponseDto<object>.Success("Şirket çözüm sağlayıcı kaydı başarıyla oluşturuldu.", 200);
 
-
-
         }
 
-        public async Task<ResponseDto<object>> RegisterIndividualAsync(RegisterIndividualProviderDto dto)
+        public async Task<ResponseDto<object>> RegisterUserAsync(RegisterUserDto dto)
         {
             var existingUser = await _unitOfWork.AppUsers.GetByFilterAsync(x=>x.Email == dto.Email);
             if (existingUser != null)
@@ -88,11 +92,7 @@ namespace Teknosib.Business.Services
             newUser.PasswordHash = passwordHash;
             newUser.PasswordSalt = passwordSalt;
 
-            var individual = _mapper.Map<IndividualProvider>(dto);
-            individual.AppUser = newUser;
-
-            await _unitOfWork.AppUsers.AddAsync(newUser);
-            await _unitOfWork.Individuals.AddAsync(individual);
+            await _unitOfWork.AppUsers.AddAsync(newUser);     
             await _unitOfWork.SaveChangesAsync();
 
             return ResponseDto<object>.Success("Bireysel çözüm sağlayıcı kaydı başarıyla oluşturuldu.", 200);
@@ -107,20 +107,24 @@ namespace Teknosib.Business.Services
 
             }
 
-            CreatePasswordHash(dto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            CreatePasswordHash(dto.AdminPassword, out byte[] passwordHash, out byte[] passwordSalt);
 
             var newUser = _mapper.Map<AppUser>(dto);
             newUser.PasswordHash = passwordHash;
             newUser.PasswordSalt = passwordSalt;
 
             var company = _mapper.Map<Company>(dto);
-            company.AppUser = newUser;
+            newUser.LegalEntity = company;
+
+            var address = _mapper.Map<Address>(dto);
+            company.Address = address;
 
             await _unitOfWork.AppUsers.AddAsync(newUser);
             await _unitOfWork.Companies.AddAsync(company);
+            await _unitOfWork.Addresses.AddAsync(address);
             await _unitOfWork.SaveChangesAsync();
 
-            return ResponseDto<object>.Success("Şirket kaydı başarıyla oluşturuldu.", 200);
+            return ResponseDto<object>.Success("Şirket ve Admin kaydı başarıyla oluşturuldu.", 200);
         }
 
 

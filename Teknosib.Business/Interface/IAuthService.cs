@@ -11,8 +11,8 @@ namespace Teknosib.Business.Interface
 {
     public interface IAuthService
     {
-        Task<ResponseDto<object>> RegisterBusinessAsync(RegisterBusinessProviderDto dto);
-        Task<ResponseDto<object>> RegisterIndividualAsync(RegisterIndividualProviderDto dto);
+        Task<ResponseDto<object>> RegisterUserAsync(RegisterUserDto dto);
+        Task<ResponseDto<object>> RegisterIntitutionAsync(RegisterInstitutionDto dto);
         Task<ResponseDto<object>> RegisterCompanyAsync(RegisterCompanyDto dto);
         Task<ResponseDto<string>> LoginAsync(LoginDto dto);
 

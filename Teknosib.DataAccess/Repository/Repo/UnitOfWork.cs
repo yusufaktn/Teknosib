@@ -12,13 +12,13 @@ public class UnitOfWork : IUnitOfWork
     public ICategoryRepository Categories { get; private set; }
     public IAppUserRepository AppUsers { get; private set; }
     public ICompanyRepository Companies { get; private set; }
-    public IKosgebSupportRepository KosgebSupports { get; private set; }
+    public ISupportCallRepository SupportCalls { get; private set; }
     public IProblemRepository Problems { get; private set; }
     public IProposalRepository Proposals { get; private set; }
     public IProjectRepository Projects { get; private set; }
     public IReviewRepository Reviews { get; private set; }
-    public IindividualProviderRepository Individuals { get; private set; }
-    public IBusinessProviderRepository BusinessProviders { get; set; }
+    public IAddressRepository Addresses { get; private set; }
+    public I_InstitutionRepository Institutions { get; set; }
 
     public UnitOfWork(MyContext context)
     {
@@ -28,13 +28,13 @@ public class UnitOfWork : IUnitOfWork
         Categories = new CategoryRepository(_context);
         AppUsers = new AppUserRepository(_context); // new UserRepository -> new AppUserRepository
         Companies = new CompanyRepository(_context);
-        KosgebSupports = new KosgebSupportRepository(_context);
+        SupportCalls = new SupportCallRepository(_context);
         Problems = new ProblemRepository(_context);
         Proposals = new ProposalRepository(_context);
         Projects = new ProjectRepository(_context);
         Reviews = new ReviewRepository(_context);
-        Individuals = new IndividualProviderRepository(_context) ;
-        BusinessProviders = new BusinessProviderRepository(_context) ;
+        Addresses = new AddressRepository(_context) ;
+        Institutions = new InstitutionRepository(_context) ;
     }
 
     // ... SaveChangesAsync ve DisposeAsync metotları aynı kalacak ...

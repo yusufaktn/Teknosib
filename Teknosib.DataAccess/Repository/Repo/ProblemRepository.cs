@@ -22,13 +22,13 @@ namespace Teknosib.DataAccess.Repository.Repo
             
             var problem  = await _dbSet.Where(x=>x.CategoryId==categoryid).Where(x=>x.Status==true)
                 .Include(x=>x.Category)
-                .Include(x=>x.Company).ToListAsync();
+                .Include(x=>x.OwnerLegalEntity).ToListAsync();
             return problem;           
         }
 
         public Task<List<Problem>> GetProblemWithDetail()
         {
-            var problem = _dbSet.Where(x=>x.Status==true).Include(x=>x.Category).Include(x=>x.Company).ToListAsync() ;
+            var problem = _dbSet.Where(x=>x.Status==true).Include(x=>x.Category).Include(x=>x.OwnerLegalEntity).ToListAsync() ;
             return problem;
         }
     }

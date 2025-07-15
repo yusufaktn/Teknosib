@@ -7,7 +7,7 @@ using Teknosib.Entity.Models;
 
 namespace Teknosib.DataAccess.Repository.Interface
 {
-    public interface IBusinessProviderRepository:IGenericRepository<BusinessProvider>
+    public interface IAddressRepository:IGenericRepository<Address>
     {
     }
 }
