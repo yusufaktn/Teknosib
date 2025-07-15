@@ -33,7 +33,7 @@ namespace Teknosib.DataAccess.Configration
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(r => r.Project)
-                .WithOne(r => r.Review)
+                .WithOne()
                 .HasForeignKey<Review>(r => r.ProjectId)
                 .OnDelete(DeleteBehavior.Restrict);
 

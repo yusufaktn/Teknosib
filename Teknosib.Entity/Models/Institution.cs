@@ -17,18 +17,5 @@ namespace Teknosib.Entity.Models
         public string? AuthorityName { get; set; } // Rektör / Başkan / Vali adı
         public string? AuthorityTitle { get; set; } // Unvan: Belediye Başkanı, Rektör, Vali vs.
         
-
-
-        public virtual ICollection<AppUser> AppUsers { get; set; }
-        public virtual ICollection<Problem> Problems { get; set; }
-        public virtual ICollection<Proposal> Proposals { get; set; }
-        public virtual ICollection<SupportCall> PublishedSupportCalls { get; set; }
-
-
-
-
-
-
-
     }
 }

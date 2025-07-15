@@ -21,11 +21,12 @@ namespace Teknosib.Entity.Models
         public ProblemStatus P_Status { get; set; } = ProblemStatus.Open;
 
 
-        //Navigation
-        
+        //Navigation   
         public virtual Category Category { get; set; }
         public virtual LegalEntity OwnerLegalEntity { get; set; }
+        public virtual  Project Project { get; set; }
         public  virtual ICollection<Proposal> Proposal { get; set; }
+
         
 
     }

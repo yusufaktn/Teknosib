@@ -15,29 +15,11 @@ namespace Teknosib.DataAccess.Configration
         {
             builder.ToTable("Tbl_Company");
 
-            builder.HasKey(c => c.CompanyId);
-            builder.Property(c => c.AppUserId).IsRequired();
-            builder.Property(c=>c.CompanyName).IsRequired().HasMaxLength(100);
+            builder.HasKey(c => c.CompanyId);         
             builder.Property(c=>c.TaxNumber).IsRequired().HasMaxLength(10);
-            builder.Property(c=>c.Address).IsRequired().HasMaxLength(200);
             builder.Property(c=>c.Description).HasMaxLength(250);
             builder.Property(c => c.Industry).HasMaxLength(100);
-
-
-            builder.HasOne(c => c.AppUser)
-                .WithOne(c => c.Company)
-                .HasForeignKey<Company>(c => c.AppUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany(c=>c.Problem)
-                .WithOne(c=>c.Company)
-                .HasForeignKey(c=>c.CompanyId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
-
-
-
+            builder.Property(c => c.EmployeeCount).HasDefaultValue(0);
 
             
         }

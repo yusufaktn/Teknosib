@@ -30,6 +30,8 @@ namespace Teknosib.Entity.Models
         public virtual LegalEntity Provider { get; set; }
         public virtual LegalEntity? Funder { get; set; }//Destek Çağrısının sahibi
 
+
+
         
 
 

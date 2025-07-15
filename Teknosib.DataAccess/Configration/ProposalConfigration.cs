@@ -17,7 +17,11 @@ namespace Teknosib.DataAccess.Configration
 
             builder.HasKey(p => p.ProposalId);
             builder.Property(p => p.ProblemId).IsRequired();
-            builder.Property(p => p.SolutionProviderId).IsRequired();
+            builder.Property(p => p.ProviderLegalEntityId).IsRequired();
+            builder.Property(p => p.AppliedSupportCallId);
+
+
+            
             builder.Property(p => p.OfferDetails).IsRequired().HasMaxLength(250);
             builder.Property(p => p.Price).IsRequired().HasColumnType("decimal(18,2)");
             builder.Property(p => p.Currency).IsRequired();
@@ -29,11 +33,15 @@ namespace Teknosib.DataAccess.Configration
                 .HasForeignKey(p => p.ProblemId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.SolutionProviderBase)
-                .WithMany(p => p.Proposal)
-                .HasForeignKey(p => p.SolutionProviderId)
+            builder.HasOne(p => p.ProviderLegalEntity)
+                .WithMany(p => p.SubmittedProposals)
+                .HasForeignKey(p => p.ProviderLegalEntityId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasOne(p=>p.AppliedSupportCall)
+                .WithMany()
+                .HasForeignKey(p=>p.AppliedSupportCallId)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
 

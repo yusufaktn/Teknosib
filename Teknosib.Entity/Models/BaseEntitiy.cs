@@ -10,6 +10,7 @@ namespace Teknosib.Entity.Models
     {
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime? UpdatedDate { get; set; }
+        public DateTime? DeletedAt { get; set; }
         public bool Status { get; set; } = true;
     }
 }

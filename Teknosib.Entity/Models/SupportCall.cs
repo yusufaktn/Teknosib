@@ -9,21 +9,18 @@ namespace Teknosib.Entity.Models
 {
     public class SupportCall:BaseEntitiy
     {
+        public Guid SupportCallId { get; set; }
+        public Guid PublisherLegalEntityId { get; set; }
+
+
         public string Title { get; set; } 
         public string Description { get; set; }
         public decimal SupportAmount { get; set; }
-
        
-        public Guid? PublisherCompanyId { get; set; }
-        public virtual Company? PublisherCompany { get; set; }
-
-        public Guid? PublisherInstitutionId { get; set; }
-        public virtual Institution? PublisherInstitution { get; set; }
-
-
+       
+      
+        public virtual LegalEntity PublisherLegalEntity { get; set; }
         
-        public virtual ICollection<Problem> Problems { get; set; }
-
 
     }
 }
