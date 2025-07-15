@@ -20,7 +20,7 @@ namespace Teknosib.Api.Controllers.Auth
         }
 
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
 
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -38,7 +38,7 @@ namespace Teknosib.Api.Controllers.Auth
         }
 
 
-        [HttpPost("register-company")]
+        [HttpPost("register-Company")]
         public async Task<IActionResult> RegisterCompany(RegisterCompanyDto registerCompanyDto)
         {
 
@@ -54,10 +54,10 @@ namespace Teknosib.Api.Controllers.Auth
 
         }
 
-        [HttpPost("register-IndividualProvider")]
-        public async Task<IActionResult> RegisterIndividualProvider(RegisterIndividualProviderDto registerIndividualProviderDto)
+        [HttpPost("register-Institution")]
+        public async Task<IActionResult> RegisterInstitutionIProvider(RegisterInstitutionDto registerInstitutionDto)
         {
-            var response  = await _authService.RegisterIndividualAsync(registerIndividualProviderDto);
+            var response  = await _authService.RegisterIntitutionAsync(registerInstitutionDto);
 
             if (response.IsSuccess)
             {
@@ -68,12 +68,12 @@ namespace Teknosib.Api.Controllers.Auth
         }
 
 
-        [HttpPost("register-BusinessProvider")]
+        [HttpPost("register-User")]
 
-        public async Task<IActionResult> RegisterBusinessProvider(RegisterBusinessProviderDto registerBusinessProviderDto)
+        public async Task<IActionResult> RegisterUserProvider(RegisterUserDto registerUserDto)
         {
 
-            var response = await _authService.RegisterBusinessAsync(registerBusinessProviderDto);
+            var response = await _authService.RegisterUserAsync(registerUserDto);
 
             if(response.IsSuccess)
             {

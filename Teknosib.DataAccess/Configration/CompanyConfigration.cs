@@ -15,7 +15,8 @@ namespace Teknosib.DataAccess.Configration
         {
             builder.ToTable("Tbl_Company");
 
-            builder.HasKey(c => c.CompanyId);         
+           
+
             builder.Property(c=>c.TaxNumber).IsRequired().HasMaxLength(10);
             builder.Property(c=>c.Description).HasMaxLength(250);
             builder.Property(c => c.Industry).HasMaxLength(100);

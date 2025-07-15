@@ -8,8 +8,7 @@ namespace Teknosib.Entity.Models
 {
     public class Company:LegalEntity
     {
-        public Guid CompanyId { get; set; }      
- 
+          
         public string TaxNumber { get; set; }//Vergi Numarası
         public string Industry { get; set; }//Sektör
         public string? Description { get; set; }

@@ -15,19 +15,13 @@ namespace Teknosib.DataAccess.Configration
         {
 
             builder.ToTable("Tbl_Institution");
-            builder.HasKey(i=>i.Id);
+            
 
             builder.Property(i=>i.Type).IsRequired();
             builder.Property(i => i.InstitutionCode);
             builder.Property(i => i.OfficialTitle).HasMaxLength(100);
             builder.Property(i => i.AuthorityName).HasMaxLength(100);
             builder.Property(i => i.InstitutionCode).HasMaxLength(100);
-
-
-           
-
-
-
 
         }
     }
