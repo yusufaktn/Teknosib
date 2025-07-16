@@ -13,6 +13,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using Teknosib.DataAccess.Repository.Interface;
 using Teknosib.DataAccess.Repository.Repo;
+using Serilog;
 
 
 namespace Teknosib.Api
@@ -22,6 +23,15 @@ namespace Teknosib.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var logger = new LoggerConfiguration()
+             .ReadFrom.Configuration(builder.Configuration)
+             .Enrich.FromLogContext()
+             .CreateLogger();
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddSerilog(logger);
+
+
 
             var connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<Teknosib.DataAccess.EntitiyFramework.MyContext>(op => op.UseSqlServer(connectionstring));
@@ -29,16 +39,17 @@ namespace Teknosib.Api
             //Business Layer /Service
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IProblemService, ProblemService>();
+            builder.Services.AddScoped<ICompanyService, CompanyService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
 
             //DataAccess Layer
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
-            
-            
 
-            
+
+
+
+
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                  .AddJwtBearer(options =>
@@ -123,7 +134,7 @@ namespace Teknosib.Api
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                
+
             }
 
             app.UseHttpsRedirection();

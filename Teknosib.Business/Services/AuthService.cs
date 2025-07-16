@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using Teknosib.Business.Interface;
 using Teknosib.DataAccess.EntitiyFramework;
 using Teknosib.Entity.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.Extensions.Logging;
 
 namespace Teknosib.Business.Services
 {
@@ -20,13 +22,15 @@ namespace Teknosib.Business.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IUnitOfWork unitOfWork, IMapper mapper, ITokenService tokenService)
+        public AuthService(IUnitOfWork unitOfWork, IMapper mapper, ITokenService tokenService, ILogger<AuthService>logger)
         {
 
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tokenService = tokenService;
+            _logger = logger;
         }
 
         public async Task<ResponseDto<string>> LoginAsync(LoginDto dto)
@@ -34,13 +38,16 @@ namespace Teknosib.Business.Services
            var user = await _unitOfWork.AppUsers.GetByFilterAsync(u=>u.Email == dto.Email);
             if(user == null)
             {
+                _logger.LogWarning("Başarısız giriş denemesi. Denenen Email :{Email}", dto.Email);
                 return ResponseDto<string>.Fail("Geçersiz kullanıcı adı veya şifre!",400);
             }
             if (!VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt))
             {
+                _logger.LogWarning("Başarısız giriş denemesi. Denenen şifre ve Email:{Email},{Password}", dto.Email,dto.Password);
                 return ResponseDto<string>.Fail("Geçersiz kullancı adı veya şifre!", 400);
             }
             var token = _tokenService.CreateToken(user);
+            _logger.LogInformation("Giriş başarılı. Giriş yapılan bilgileri: UserId :{AppUserId}, Name: {Name}", user.AppUserId, user.Name);
             return ResponseDto<string>.Success(token, 200);
         }
 
@@ -49,7 +56,7 @@ namespace Teknosib.Business.Services
             var existingUser = await _unitOfWork.AppUsers.GetByFilterAsync(x => x.Email == dto.Email);
             if (existingUser != null)
             {
-
+                _logger.LogWarning("Başarısız kayıt denemesi. Var olan email. Denenen Email :{Email}", dto.Email);
                 return ResponseDto<object>.Fail("Bu e-posta ile kayıt oluşturulmuş", 400);
 
             }
@@ -60,20 +67,12 @@ namespace Teknosib.Business.Services
             newuser.PasswordHash = passwordHash;
             newuser.PasswordSalt = passwordSalt;
 
-            var institution = _mapper.Map<Institution>(dto);
-            newuser.LegalEntity = institution;
-
-            var address = _mapper.Map<Address>(dto);
-            institution.Address = address;
-
-
-
             await _unitOfWork.AppUsers.AddAsync(newuser);
-            await _unitOfWork.Addresses.AddAsync(address);
-            await _unitOfWork.Institutions.AddAsync(institution);
+            
             await _unitOfWork.SaveChangesAsync();
 
-            return ResponseDto<object>.Success("Şirket çözüm sağlayıcı kaydı başarıyla oluşturuldu.", 200);
+            _logger.LogInformation("Kurum Kaydı başarılı. Kayıt yapan admin bilgileri: UserId :{AppUserId}, Name: {Name}", newuser.AppUserId, newuser.Name);
+            return ResponseDto<object>.Success("Kurum ve Admin kaydı başarıyla oluşturuldu.", 200);
 
         }
 
@@ -82,6 +81,8 @@ namespace Teknosib.Business.Services
             var existingUser = await _unitOfWork.AppUsers.GetByFilterAsync(x=>x.Email == dto.Email);
             if (existingUser != null)
             {
+
+                _logger.LogWarning("Başarısız kayıt denemesi. Var olan email. Denenen Email :{Email}", dto.Email);
                 return ResponseDto<object>.Fail("Bu e-posta ile kayıt oluşturulmuş", 400);
 
             }
@@ -95,7 +96,8 @@ namespace Teknosib.Business.Services
             await _unitOfWork.AppUsers.AddAsync(newUser);     
             await _unitOfWork.SaveChangesAsync();
 
-            return ResponseDto<object>.Success("Bireysel çözüm sağlayıcı kaydı başarıyla oluşturuldu.", 200);
+            _logger.LogInformation("Kullanıcı/Çalışan Kaydı başarılı. Kayıt yapan kullanıcı bilgileri: UserId :{AppUserId}, Name: {Name}", newUser.AppUserId, newUser.Name);
+            return ResponseDto<object>.Success("Kullanıcı/Çalışan kaydı başarıyla oluşturuldu.", 200);
         }
 
         public async Task<ResponseDto<object>> RegisterCompanyAsync(RegisterCompanyDto dto)
@@ -103,6 +105,7 @@ namespace Teknosib.Business.Services
             var existingUser = await _unitOfWork.AppUsers.GetByFilterAsync(x => x.Email == dto.Email);
             if (existingUser != null)
             {
+                _logger.LogWarning("Başarısız kayıt denemesi. Var olan email. Denenen Email :{Email}", dto.Email);
                 return ResponseDto<object>.Fail("Bu e-posta ile kayıt oluşturulmuş", 400);
 
             }
@@ -113,17 +116,11 @@ namespace Teknosib.Business.Services
             newUser.PasswordHash = passwordHash;
             newUser.PasswordSalt = passwordSalt;
 
-            var company = _mapper.Map<Company>(dto);
-            newUser.LegalEntity = company;
-
-            var address = _mapper.Map<Address>(dto);
-            company.Address = address;
-
             await _unitOfWork.AppUsers.AddAsync(newUser);
-            await _unitOfWork.Companies.AddAsync(company);
-            await _unitOfWork.Addresses.AddAsync(address);
+           
             await _unitOfWork.SaveChangesAsync();
 
+            _logger.LogInformation("Şirket Kaydı başarılı. Kayıt yapan admin bilgileri: UserId :{AppUserId}, Name: {Name}", newUser.AppUserId, newUser.Name);
             return ResponseDto<object>.Success("Şirket ve Admin kaydı başarıyla oluşturuldu.", 200);
         }
 

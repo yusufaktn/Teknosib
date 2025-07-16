@@ -18,15 +18,34 @@ namespace Teknosib.Business.Mapper.AuthMap.RegisterMap
                .ForMember(x => x.Role, y => y.MapFrom(z => RoleTypes.Admin))
                .ForMember(x => x.Name, y => y.MapFrom(z => z.AdminFirstName))
                .ForMember(x => x.Surname, y => y.MapFrom(z => z.AdminLastName))
-               .ForMember(x => x.Email, y => y.MapFrom(z => z.AdminEmail));
+               .ForMember(x => x.Email, y => y.MapFrom(z => z.AdminEmail))
+               .ForMember(x=>x.LegalEntity,y=>y.MapFrom(z=> new Institution
+               {
 
-            CreateMap<RegisterInstitutionDto, LegalEntity>()
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.AdminFirstName));
+                   Name = z.IntitutionName,
+                   PhoneNumber = z.PhoneNumber,
+                   Email = z.Email,
+                   WebSite = z.WebSite,
+                   Logo = z.Logo,
 
-            CreateMap<RegisterInstitutionDto, Institution>()
-                .ForMember(x=>x.Type ,y=>y.MapFrom(z=> InstitutionType.Diger));
-            CreateMap<RegisterInstitutionDto, Address>();
+                   Type = z.Type,
+                   OfficialTitle= z.OfficialTitle,
+                   AuthorityName = z.AuthorityName,
+                   AuthorityTitle= z.AuthorityTitle,
+                   InstitutionCode = z.InstitutionCode,
 
+                   Address = new Address
+                   {
+                       City = z.City,
+                       District = z.District,
+                       PostalCode = z.PostalCode,
+                       AddressLine = z.AddressLine,
+                       
+
+                   }
+               }));
+
+            
                
 
 
