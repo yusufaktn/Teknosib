@@ -9,13 +9,13 @@ namespace Teknosib.Business.Interface
 {
     public interface ICompanyService
     {
-        Task<ResponseDto<CompanyDto>> GetCompanyListAsync();
+        Task<ResponseDto<List<CompanyDto>>> GetCompanyListAsync();
         Task<ResponseDto<CompanyDto>> GetCompanyWithStatusFalseAsync();
-        Task<ResponseDto<CompanyDto>> GetByIdCompanyAsync();
+        Task<ResponseDto<CompanyDto>> GetByIdCompanyAsync(Guid id);
         Task<ResponseDto<CompanyDto>> CreateCompanyAsync(CreateCompanyDto createCompanyDto);
-        Task<ResponseDto<CompanyDto>> UpdateCompanyAsync();
-        Task<ResponseDto<object>> DeleteCompanyAsync();
-        Task<ResponseDto<object>> HardDeleteAsync();
+        Task<ResponseDto<UpdateCompanyDto>> UpdateCompanyAsync(Guid id ,UpdateCompanyDto updateCompanyDto);
+        Task<ResponseDto<object>> DeleteCompanyAsync(DeleteCompanyDto deleteCompanyDto);
+        Task<ResponseDto<object>> HardDeleteAsync(DeleteCompanyDto deleteCompanyDto);
 
     }
 }
