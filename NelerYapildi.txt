@@ -1,25 +1,53 @@
-Entity Layer:
+Toknosib Projesi - Geliþtirme Süreci ve Mevcut Durum Notlarý
+Proje Hedefi: Bu proje, Asp.Net Core N-Tier Mimarisi ve Repository tasarým deseni kullanýlarak, temiz kod ve SOLID prensiplerine baðlý kalarak geliþtirilmektedir. Amaç, yönetilebilir, ölçeklenebilir ve bakýmý kolay bir backend altyapýsý oluþturmaktýr.
 
--Veritabaný tablolarý için model classlarý oluþturuldu. Ýliþkileri modeller içinde tanýmlandý.
--Enum deðerler kullanýldý.
+1. Mimari ve Tasarým Desenleri:
 
+N-Tier Mimarisi: Proje, sorumluluklarýn net bir þekilde ayrýlmasý amacýyla dört ana katmana bölünmüþtür:
 
-Data Access Layer:
+Teknosib.Entity: Projenin temel varlýk (model) sýnýflarýný ve enum'larýný barýndýrýr. Veritabaný tablolarýnýn kod karþýlýklarýdýr.
 
--Configration klasörü içinde tek tek modellerin veritabanýndaki konfigrasyonlarýný ve iliþkilerini belirledik.
-Böylelikle EF core hangi tablonun ne ile iliþkili olduðu gibi olmasý gereken özellikleri anlamýþ oldu ve veritabanýna bu þekilde yansýtýldý.
+Teknosib.DataAccess: Veri eriþim sorumluluðunu üstlenir. Entity Framework Core, Repository ve Unit of Work desenlerini içerir.
 
--Veritabanýna yansýtma iþlemini migraiton ile yaptýk ve tablolarýmýz otomatik oluþtu.
--Repository klsörümüzde Repository design pattern kullandýðýmýz içinde buraya hen entity için repo yazýldý.Ayrýca bunlarýn ortak iþlemleri olduðu için genericrepo oluþturuldu.
-Bu sayede her tabloda yapýlacak iþlemleri(Create,Update,Delete,GetList,GetById...) kod tekrarýndan kurtulmak için GenericRepository içinde kullandýk.
+Teknosib.Business: Projenin iþ mantýðýnýn, servislerin, DTO'larýn, validasyon kurallarýnýn ve nesne dönüþümlerinin (mapping) bulunduðu katmandýr.
 
--Unit of Work kullanýldý. Sebebi gerçek bir uygulamada, tek bir iþlem için birden fazla veritabaný operasyonu yapmanýz gerekebilir.
-Örnek Senaryo: Bir Problem kaydý oluþturulduðunda, ayný anda ilgili bir Log kaydý da atmak isteyebilirsiniz.
+Teknosib.Api: Dýþ dünyaya açýlan kapýdýr. RESTful API endpoint'lerini (Controller'lar) barýndýrýr ve istemci isteklerini karþýlar.
 
-ProblemRepository.Add(yeniProblem)
+Repository ve Unit of Work Desenleri: DataAccess katmanýnda GenericRepository ve UnitOfWork yapýlarý kurulmuþtur. Bu sayede Business katmanýnýn doðrudan veritabaný teknolojisiyle (Entity Framework) baðýmlýlýðý ortadan kaldýrýlmýþ, kod tekrarý önlenmiþ ve veritabaný iþlemlerinin tek bir transaction üzerinden yönetilmesi saðlanmýþtýr.
 
-LogRepository.Add(yeniLog)
+2. Veritabaný Altyapýsý (DataAccess Katmaný):
 
-Eðer her repository kendi SaveChanges metodunu çaðýrýrsa, ilk iþlem baþarýlý olup ikincisi hata verdiðinde veritabanýnýzda tutarsýzlýk oluþur. Problem eklenmiþ ama Log eklenmemiþ olur.
+Entity Framework Core: Veritabaný iþlemleri için ORM (Object-Relational Mapping) aracý olarak EF Core kullanýlmýþtýr.
 
-Unit of Work, tüm bu iþlemleri tek bir "iþ birimi" olarak gruplar ve hepsi tamamlandýðýnda veritabanýna tek bir transaction (iþlem) ile kaydeder. Böylece "ya hep ya hiç" prensibiyle çalýþýrýz. Herhangi bir adýmda hata olursa, tüm iþlemler geri alýnýr.
+Code First Yaklaþýmý: Entity katmanýnda tanýmlanan model sýnýflarýna dayanarak veritabaný þemasý oluþturulmuþtur.
+
+Fluent API ile Yapýlandýrma: Veritabaný tablolarýnýn özellikleri, iliþkileri ve kýsýtlamalarý, MyContext içerisindeki OnModelCreating metodunu þiþirmemek adýna her entity için ayrý IEntityTypeConfiguration<T> sýnýflarýnda (örn: ProjectConfigration.cs) tanýmlanmýþtýr.
+
+Migration: mig1 adýyla ilk veritabaný migration'ý oluþturulmuþ ve veritabaný þemasý baþarýyla hazýrlanmýþtýr.
+
+3. Ýþ Mantýðý ve Servisler (Business Katmaný):
+
+Servis Katmaný: IProblemService gibi interface'ler ve ProblemService gibi bu interface'leri implemente eden sýnýflar aracýlýðýyla iþ mantýðý kodlanmýþtýr. Bu yapý, baðýmlýlýklarý azaltýr ve test edilebilirliði artýrýr.
+
+DTO (Data Transfer Object): Api katmaný ile Business katmaný arasýnda veri taþýyan özel nesneler (CreateProblemDto, ProblemDto vb.) oluþturulmuþtur. Bu, veritabaný modellerinin doðrudan dýþ dünyaya açýlmasýný engelleyerek güvenliði ve esnekliði artýrýr.
+
+AutoMapper: Entity nesneleri ile DTO'lar arasýndaki dönüþüm iþlemleri, ProblemProfile gibi mapping profilleri yazýlarak otomatize edilmiþtir.
+
+FluentValidation: Gelen isteklerdeki DTO'larýn geçerliliðini kontrol etmek için CreateProblemDtoValidator gibi doðrulama sýnýflarý oluþturulmuþtur. Bu, iþ mantýðýna geçmeden önce verinin tutarlý olmasýný garanti eder.
+
+4. API ve Güvenlik (Api Katmaný):
+
+RESTful API Controller'larý: ProblemController, CompanyController, CategoryController ve AuthController gibi temel controller'lar oluþturulmuþtur. Bu controller'lar, Business katmanýndaki servisleri kullanarak iþlemleri gerçekleþtirir.
+
+Dependency Injection: Program.cs dosyasýnda, projedeki tüm servisler (IUnitOfWork, IProblemService vb.), AutoMapper, FluentValidation ve diðer baðýmlýlýklar merkezi olarak IoC (Inversion of Control) container'a kaydedilmiþtir.
+
+JWT ile Kimlik Doðrulama: Sisteme giriþ (Login) ve kayýt (Register) iþlemleri için AuthController oluþturulmuþtur. Baþarýlý giriþ yapan kullanýcýlara, yetkilendirme gerektiren endpoint'lere eriþim için kullanýlacak bir JWT (JSON Web Token) üretilmektedir (TokenService).
+
+Yetkilendirme: API endpoint'leri, [Authorize] attribute'u kullanýlarak belirli rollere (örn: [Authorize(Roles = "Admin")]) veya sadece giriþ yapmýþ kullanýcýlara kýsýtlanmýþtýr.
+
+Loglama (Serilog): Projedeki hatalarý ve önemli olaylarý takip etmek için Serilog kütüphanesi entegre edilmiþ ve loglarýn bir metin dosyasýna yazýlmasý saðlanmýþtýr.
+
+API Dokümantasyonu (Swagger): Geliþtirme ortamýnda API endpoint'lerinin otomatik olarak belgelenmesi ve test edilebilmesi için Swagger/OpenAPI entegrasyonu yapýlmýþtýr.
+
+Mevcut Durum:
+Projenin temel altyapýsý ve mimarisi baþarýyla kurulmuþtur. Authentication, Category, Company ve Problem gibi ana iþlevler için DTO, Mapper, Servis ve Controller katmanlarý tamamlanmýþtýr. Veritabaný baðlantýsý ve loglama mekanizmalarý çalýþýr durumdadýr.

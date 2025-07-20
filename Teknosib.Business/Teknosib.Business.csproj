@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dto\InstitutionDto\" />
+    <Folder Include="Mapper\InstitutionMap\" />
   </ItemGroup>
 
 </Project>
