@@ -11,7 +11,6 @@ namespace Teknosib.Business.Interface
 {
     public interface IProblemService
     {
-
         Task<ResponseDto<List<ProblemDto>>> GetProblemListAsync();
         Task<ResponseDto<List<ProblemDto>>> GetProblemListWithStatusFalseAsync();
         Task<ResponseDto<ProblemDto>> GetByIdProblemAsync(Guid id);
@@ -20,8 +19,5 @@ namespace Teknosib.Business.Interface
         Task<ResponseDto<object>> DeleteProblemAsync(DeleteProblemDto deleteProblemDto);
         Task<ResponseDto<object>> HardDeleteProblemAsync(DeleteProblemDto deleteProblemDto);
         Task<ResponseDto<List<ProblemDto>>> GetProblemByCategoryIdAsync(Guid id);
-
-
-
     }
 }

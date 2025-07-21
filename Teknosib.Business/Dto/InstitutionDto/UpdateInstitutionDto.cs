@@ -10,7 +10,7 @@ namespace Teknosib.Business.Dto.InstitutionDto
     public class UpdateInstitutionDto
     {
         public Guid AddressId { get; set; }
-        public string CompanyName { get; set; }
+        public string InstitutionName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
