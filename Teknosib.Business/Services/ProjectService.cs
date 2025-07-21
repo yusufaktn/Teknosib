@@ -90,10 +90,7 @@ namespace Teknosib.Business.Services
             }
         }
 
-        public Task<ResponseDto<List<ProjectDto>>> GetProjectByCategoryIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public  async Task<ResponseDto<List<ProjectDto>>> GetProjectListAsync()
         {

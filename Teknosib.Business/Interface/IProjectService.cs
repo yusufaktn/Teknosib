@@ -17,6 +17,6 @@ namespace Teknosib.Business.Interface
         Task<ResponseDto<UpdateProjectDto>> UpdateProjectAsync(Guid id, UpdateProjectDto updateProjectDto);
         Task<ResponseDto<object>> DeleteProjectAsync(DeleteProjectDto deleteProjectDto);
         Task<ResponseDto<object>> HardDeleteProjectAsync(DeleteProjectDto deleteProjectDto);
-        Task<ResponseDto<List<ProjectDto>>> GetProjectByCategoryIdAsync(Guid id);
+        
     }
 }
