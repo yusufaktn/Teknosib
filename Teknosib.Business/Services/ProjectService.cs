@@ -34,7 +34,7 @@ namespace Teknosib.Business.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var responsedto = _mapper.Map<ProjectDto>(mappingdto);
-                _logger.LogInformation("Proje başarıyla oluşturuldu :{Name}", mappingdto.ProjectName);
+                _logger.LogInformation("Proje başarıyla oluşturuldu :{ProjectName}", mappingdto.ProjectName);
                 return ResponseDto<ProjectDto>.Success(responsedto, 200, "Proje başarıyla oluşturuldu. ");
             }
             catch (Exception ex)
@@ -48,14 +48,14 @@ namespace Teknosib.Business.Services
         {
             try
             {
-                var getproject = await _unitOfWork.Institutions.GetByIdAsync(deleteProjectDto.ProjectId);
+                var getproject = await _unitOfWork.Projects.GetByIdAsync(deleteProjectDto.ProjectId);
                 if (getproject is null)
                 {
                     _logger.LogWarning("Silinecek proje bulunamadı. Gönderilen Id: {Id}", deleteProjectDto.ProjectId);
                     return ResponseDto<object>.Fail("Silinecek proje bulunamadı.", 404);
                 }
 
-                await _unitOfWork.Institutions.SoftDeleteAsync(getproject);
+                await _unitOfWork.Projects.SoftDeleteAsync(getproject);
                 await _unitOfWork.SaveChangesAsync();
                 _logger.LogInformation("Silme işlemi başarılı. Silinen Id: {Id}", deleteProjectDto.ProjectId);
                 return ResponseDto<object>.Success(getproject, 200, "Proje silme işlemi başarılı");
@@ -176,7 +176,7 @@ namespace Teknosib.Business.Services
                 var mappingdto = _mapper.Map(updateProjectDto, getproject);
                 await _unitOfWork.Projects.UpdateAsync(mappingdto);
                 await _unitOfWork.SaveChangesAsync();
-                _logger.LogInformation($"Kurum güncelleme işlemi başarılı.Update institution: {id}");
+                _logger.LogInformation($"Kurum güncelleme işlemi başarılı.Update project: {id}");
                 return ResponseDto<UpdateProjectDto>.Success(updateProjectDto, 200, "Güncelleme işlemi başarılı.");
 
 
