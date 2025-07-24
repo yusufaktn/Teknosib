@@ -40,8 +40,14 @@ namespace Teknosib.Api
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IProblemService, ProblemService>();
             builder.Services.AddScoped<ICompanyService, CompanyService>();
+            builder.Services.AddScoped<IInstitutionService, InstitutionService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IProjectService, ProjectService>();
+            builder.Services.AddScoped<IProposalService, ProposalService>();
+            builder.Services.AddScoped<ISupportCallService, SupportCallService>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
+
 
             //DataAccess Layer
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

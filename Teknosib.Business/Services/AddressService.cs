@@ -50,34 +50,144 @@ namespace Teknosib.Business.Services
             }
         }
 
-        public Task<ResponseDto<object>> Delete_AddressAsync(DeleteAddressDto deleteAddressDto)
+        public async Task<ResponseDto<object>> Delete_AddressAsync(DeleteAddressDto deleteAddressDto)
         {
-            
+            try
+            {
+                var getAddress = await _unitOfWork.Addresses.GetByIdAsync(deleteAddressDto.AddressId);
+                if(getAddress is null)
+                {
+                    _logger.LogWarning($"Getirilecek adres bulunamadı. Id:{deleteAddressDto.AddressId}");
+                    return ResponseDto<object>.Fail("Getirilecek adres bulunamadı.",404);
+
+                }
+                await _unitOfWork.Addresses.SoftDeleteAsync(getAddress);
+                await _unitOfWork.SaveChangesAsync();
+                _logger.LogInformation($"Adres silme işlemi başarılı. Id:{deleteAddressDto.AddressId}");
+                return ResponseDto<object>.Success($"Silme işlemi başarılı. Id:{deleteAddressDto.AddressId}", 200);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning($"Adres silme işlemi sırasında bir hata oluştu. Id:{deleteAddressDto.AddressId}");
+                return ResponseDto<object>.Fail($"Adres silme işlemi sırasında bir hata oluştu. Id:{deleteAddressDto.AddressId}",500);
+               
+            }
         }
 
-        public Task<ResponseDto<List<AddressDto>>> GetAddressList_WithStatusFalseAsync()
+        public async Task<ResponseDto<List<AddressDto>>> GetAddressList_WithStatusFalseAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getAddress = await _unitOfWork.Addresses.GetListIncludingStatusFalse();
+                if(getAddress is null)
+                {
+                    _logger.LogWarning("Getirilecek adres bulunamadı.");
+                    return ResponseDto<List<AddressDto>>.Fail("Getirilecek adres bulunamadı.", 404);                      
+                }
+                var mappingdto = _mapper.Map<List<AddressDto>>(getAddress);
+                _logger.LogInformation("Tüm adresler başarıyla getirildi.");
+                return ResponseDto<List<AddressDto>>.Success(mappingdto, 200, "Tüm adresler başarıyla getirildi");
+            }
+            catch (Exception)
+            {
+                _logger.LogWarning("Tüm adresler getirilirken bir hata oluştu");
+                return ResponseDto<List<AddressDto>>.Fail("Tüm adresler getirilirken bir hata oluştu", 500);
+            }
         }
 
-        public Task<ResponseDto<List<AddressDto>>> GetAddress_ListAsync()
+        public async Task<ResponseDto<List<AddressDto>>> GetAddress_ListAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getAddress = await _unitOfWork.Addresses.GetListAllAsync();
+                if(getAddress is null)
+                {
+                    _logger.LogWarning("Getirilecek adres bulunamadı.");
+                    return ResponseDto<List<AddressDto>>.Fail("Getirilecek adres bulunamadı.", 404);
+                }
+                var mappingdto = _mapper.Map<List<AddressDto>>(getAddress);
+                _logger.LogInformation("Tüm adresler başarıyla getirildi.");
+                return ResponseDto<List<AddressDto>>.Success(mappingdto, 200, "Tüm adresler başarıyla getirildi");
+
+            }
+            catch (Exception)
+            {
+
+                _logger.LogWarning("Tüm adresler getirilirken bir hata oluştu");
+                return ResponseDto<List<AddressDto>>.Fail("Tüm adresler getirilirken bir hata oluştu", 500);
+            }
         }
 
-        public Task<ResponseDto<AddressDto>> GetById_AddressAsync(Guid id)
+        public async Task<ResponseDto<AddressDto>> GetById_AddressAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getAddress = await _unitOfWork.Addresses.GetByIdAsync(id);
+                if(getAddress is null)
+                {
+                    _logger.LogWarning($"Getirilecek adres bulunamadı. Id:{id}");
+                    return ResponseDto<AddressDto>.Fail($"Getirilecek adres bulunamadı. Id:{id}", 404);
+                }
+                var mappingdto = _mapper.Map<AddressDto>(getAddress);
+                _logger.LogInformation($"Adres başarıyla getirildi. Id:{id}");
+                return ResponseDto<AddressDto>.Success(mappingdto, 200, $"Adres başarıyla getirildi. Id:{id}");
+
+            }
+            catch (Exception)
+            {
+
+                _logger.LogWarning($"Adres getirilirken bir hata oluştu. Id:{id}");
+                return ResponseDto<AddressDto>.Fail($"Adres getirilirken bir hata oluştu. Id:{id}",500);
+            }
         }
 
-        public Task<ResponseDto<object>> HardDelete_AddressAsync(DeleteAddressDto deleteAddressDto)
+        public async Task<ResponseDto<object>> HardDelete_AddressAsync(DeleteAddressDto deleteAddressDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getAddress = await _unitOfWork.Addresses.GetByIdAsync(deleteAddressDto.AddressId);
+                if (getAddress is null)
+                {
+                    _logger.LogWarning($"Getirilecek adres bulunamadı. Id:{deleteAddressDto.AddressId}");
+                    return ResponseDto<object>.Fail("Getirilecek adres bulunamadı.", 404);
+
+                }
+                await _unitOfWork.Addresses.HardDeleteAsync(getAddress);
+                await _unitOfWork.SaveChangesAsync();
+                _logger.LogInformation($"Adres silme işlemi başarılı. Id:{deleteAddressDto.AddressId}");
+                return ResponseDto<object>.Success($"Silme işlemi başarılı. Id:{deleteAddressDto.AddressId}", 200);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning($"Adres silme işlemi sırasında bir hata oluştu. Id:{deleteAddressDto.AddressId}");
+                return ResponseDto<object>.Fail($"Adres silme işlemi sırasında bir hata oluştu. Id:{deleteAddressDto.AddressId}", 500);
+
+            }
         }
 
-        public Task<ResponseDto<UpdateAddressDto>> Update_AddressAsync(Guid id, UpdateAddressDto updateAddressDto)
+        public async Task<ResponseDto<UpdateAddressDto>> Update_AddressAsync(Guid id, UpdateAddressDto updateAddressDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getAddress = await _unitOfWork.Addresses.GetByIdAsync(id);
+                if(getAddress is null)
+                {
+                    _logger.LogWarning($"Güncellenecek adres bulunamadı. Id:{id}");
+                    return ResponseDto<UpdateAddressDto>.Fail($"Güncellenecek adres bulunamadı. Id:{id}",404);
+                }
+               var mappingdto = _mapper.Map(updateAddressDto, getAddress);
+                await _unitOfWork.Addresses.UpdateAsync(mappingdto);
+                await _unitOfWork.SaveChangesAsync();
+                _logger.LogInformation($"Adres başarıyla güncellendi. Id:{id}");
+                return ResponseDto<UpdateAddressDto>.Success(updateAddressDto, 200, $"Adres başarıyla güncellendi. Id:{id}");
+
+            }
+            catch (Exception)
+            {
+                _logger.LogWarning($"Adres güncellenirken bir hata oluştu Id:{id}");
+                return ResponseDto<UpdateAddressDto>.Fail($"Adres güncellenirken bir hata oluştu. Id:{id}",500);
+
+            }
         }
     }
 }
