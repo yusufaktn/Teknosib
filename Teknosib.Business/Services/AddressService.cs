@@ -28,13 +28,8 @@ namespace Teknosib.Business.Services
         {
             try
             {
-                var getAddress = await _unitOfWork.Addresses.GetByFilterAsync(x => x.City == createAddressDto.City);
-                if(getAddress is not null)
-                {
-                    _logger.LogWarning($"Aynı adresten daha önce eklenmiş. Adres:{createAddressDto.City}");
-                    return ResponseDto<AddressDto>.Fail("Adres daha önce eklenmiş", 404);
-                }
-                var mappingdto = _mapper.Map<Address>(getAddress);
+                
+                var mappingdto = _mapper.Map<Address>(createAddressDto);
                 await _unitOfWork.Addresses.AddAsync(mappingdto);
                 await _unitOfWork.SaveChangesAsync();
                 _logger.LogInformation($"Adres başarıyla eklendi. Adres:{createAddressDto.City}");

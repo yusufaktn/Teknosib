@@ -87,6 +87,7 @@ namespace Teknosib.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
+                options.SupportNonNullableReferenceTypes();
                 // Genel Swagger doküman tanýmý
                 options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Teknosib API", Version = "v1" });
 

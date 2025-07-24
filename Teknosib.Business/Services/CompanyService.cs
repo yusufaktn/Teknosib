@@ -33,8 +33,8 @@ namespace Teknosib.Business.Services
                 var company = await _unitOfWork.Companies.GetByFilterAsync(x => x.TaxNumber == createCompanyDto.TaxNumber);
                 if (company is not null)
                 {
-                    _logger.LogWarning("Firma/Şirket oluşturulurken hata oluştu. Zaten oluşturulmuş. {TaxNumber}",company.TaxNumber);
-                    return ResponseDto<CompanyDto>.Fail("Bu firma/şirket zaten var.", 404);
+                    _logger.LogWarning($"Firma/Şirket oluşturulurken hata oluştu. Zaten oluşturulmuş.Vergi No:{createCompanyDto.TaxNumber}");
+                    return ResponseDto<CompanyDto>.Fail($"Bu firma/şirket zaten var. İsim:{company.Name}", 404);
                 }
 
                var mappingdto= _mapper.Map<Company>(createCompanyDto);
@@ -42,14 +42,14 @@ namespace Teknosib.Business.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var responsedto = _mapper.Map<CompanyDto>(mappingdto);
-               _logger.LogInformation("Firma/Şirket başarıyla oluşturuldu :{Name}",mappingdto.Name);
-               return ResponseDto<CompanyDto>.Success(responsedto,200, "Firma/Şirket başarıyla oluşturuldu. ");
+               _logger.LogInformation($"Firma/Şirket başarıyla oluşturuldu. İsim:{createCompanyDto.CompanyName}");
+               return ResponseDto<CompanyDto>.Success(responsedto,200, $"Firma/Şirket başarıyla oluşturuldu. İsim:{createCompanyDto.CompanyName}");
             }
             catch (Exception ex)
             {
 
-                _logger.LogWarning("Firma/Şirket oluşturulurken hata oluştu.{TaxNumber}", createCompanyDto.TaxNumber);
-                return ResponseDto<CompanyDto>.Fail("Firma/şirket oluşturulurken bir hata oluştu. "+ex.Message, 404);
+                _logger.LogWarning($"Firma/Şirket oluşturulurken hata oluştu. Vergi No:{createCompanyDto.TaxNumber}");
+                return ResponseDto<CompanyDto>.Fail($"Firma/şirket oluşturulurken bir hata oluştu. Vergi No:{createCompanyDto.TaxNumber} "+ex.Message, 404);
             }
                   
         }
@@ -61,19 +61,19 @@ namespace Teknosib.Business.Services
                 var getcompany = await _unitOfWork.Companies.GetByIdAsync(deleteCompanyDto.Id);
                 if(getcompany is null)
                 {
-                    _logger.LogWarning("Silinecek Şirket/Firma  bulunamadı. Gönderilen Id: {Id}", deleteCompanyDto.Id);
+                    _logger.LogWarning($"Silinecek Şirket/Firma  bulunamadı. Gönderilen Id: {deleteCompanyDto.Id}");
                     return ResponseDto<object>.Fail("Silinecek Şirket/Firma bulunamadı.", 404);
                 }
 
                 await _unitOfWork.Companies.SoftDeleteAsync(getcompany);
                 await _unitOfWork.SaveChangesAsync();
-                _logger.LogInformation("Silme işlemi başarılı. Silinen Id: {Id}", deleteCompanyDto.Id);
+                _logger.LogInformation($"Silme işlemi başarılı. Silinen Id: {deleteCompanyDto.Id}");
                 return ResponseDto<object>.Success(getcompany, 200, "Şirket/Firma silme işlemi başarılı");
 
             }
             catch (Exception ex)
             {
-                _logger.LogWarning("Silinecek Şirket/Firma  silinirken bir hata oluştu. Gönderilen Id: {Id}", deleteCompanyDto.Id);
+                _logger.LogWarning($"Silinecek Şirket/Firma  silinirken bir hata oluştu. Gönderilen Id: {deleteCompanyDto.Id}");
                 return ResponseDto<object>.Fail("Silinecek Şirket/Firma  silinirken bir hata oluştu. " + ex.Message, 500);
             }
         }
@@ -85,17 +85,17 @@ namespace Teknosib.Business.Services
                 var getcompany = await _unitOfWork.Companies.GetByIdAsync(id);
                 if( getcompany is null)
                 {
-                    _logger.LogWarning("Getirilecek Şirket/Firma  bulunamadı. Gönderilen Id: {Id}",id);
+                    _logger.LogWarning($"Getirilecek Şirket/Firma  bulunamadı. Gönderilen Id: {id}");
                     return ResponseDto<CompanyDto>.Fail("Silinecek Şirket/Firma bulunamadı.", 404);
                 }
                 var mappingdto= _mapper.Map<CompanyDto>(getcompany);
-                _logger.LogInformation("Şirket/Firma getirme işlemi başarılı. Silinen Id: {Id}", id);
+                _logger.LogInformation($"Şirket/Firma getirme işlemi başarılı. Silinen Id: {id}");
                 return ResponseDto<CompanyDto>.Success(mappingdto, 200, "Şirket/Firma başarıyla getirildi.");
 
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(" Şirket/Firma getirilirken bir hata oluştu. Gönderilen Id: {Id}", id);
+                _logger.LogWarning($"Şirket/Firma getirilirken bir hata oluştu. Gönderilen Id: {id}");
                 return ResponseDto<CompanyDto>.Fail("Şirket/Firma getirlirken bir hata oluştu. "+ex.Message,500);
             }
         }
@@ -155,18 +155,18 @@ namespace Teknosib.Business.Services
                 var getcompany = await _unitOfWork.Companies.GetByIdAsync(deleteCompanyDto.Id);
                 if( getcompany is null)
                 {
-                    _logger.LogWarning("Silinecek Şirket/Firma  bulunamadı. Gönderilen Id: {Id}",deleteCompanyDto.Id);
+                    _logger.LogWarning($"Silinecek Şirket/Firma  bulunamadı. Gönderilen Id: {deleteCompanyDto.Id}");
                     return ResponseDto<object>.Fail("Silinecek Şirket/Firma bulunamadı.", 404);
                 }
                 await _unitOfWork.Companies.HardDeleteAsync(getcompany);
                 await _unitOfWork.SaveChangesAsync();
-                _logger.LogInformation($"Hard Delete işlemi başarıyla tamamlandı. {deleteCompanyDto.Id} deleted");
-                return ResponseDto<object>.Success(getcompany, 200, "Silme işlemi başarılı.");
+                _logger.LogInformation($"Hard Delete işlemi başarıyla tamamlandı. Silinen Id:{deleteCompanyDto.Id} ");
+                return ResponseDto<object>.Success(getcompany, 200, $"Silme işlemi başarılı. Silinen Id:{deleteCompanyDto.Id}");
 
             }
             catch (Exception ex)
             {
-                _logger.LogWarning("Silinecek Şirket/Firma silinirken bir hata oluştu. Gönderilen Id: {Id}", deleteCompanyDto.Id);
+                _logger.LogWarning($"Silinecek Şirket/Firma silinirken bir hata oluştu. Gönderilen Id: {deleteCompanyDto.Id}");
                 return ResponseDto<object>.Fail("Silinecek Şirket/Firma bulunamadı. "+ex.Message, 500);
 
             }
@@ -179,13 +179,13 @@ namespace Teknosib.Business.Services
                 var getcompany = await _unitOfWork.Companies.GetByIdAsync(id);
                 if( getcompany is null)
                 {
-                    _logger.LogWarning("Güncellencek Şirket/Firma  bulunamadı. Gönderilen Id: {Id}", id);
+                    _logger.LogWarning($"Güncellencek Şirket/Firma  bulunamadı. Gönderilen Id: {id}");
                     return ResponseDto<UpdateCompanyDto>.Fail("Güncellenecek Şirket/Firma bulunamadı.", 404);
                 }
                 var mappingdto = _mapper.Map(updateCompanyDto, getcompany);
                 await _unitOfWork.Companies.UpdateAsync(mappingdto);
                 await _unitOfWork.SaveChangesAsync();
-                _logger.LogInformation($"Şirket/Firma güncelleme işlemi başarılı.Update company: {id}");
+                _logger.LogInformation($"Şirket/Firma güncelleme işlemi başarılı. Güncellenen Şirket/Firma: {id},{getcompany}");
                 return ResponseDto<UpdateCompanyDto>.Success(updateCompanyDto, 200, "Güncelleme işlemi başarılı.");
 
 

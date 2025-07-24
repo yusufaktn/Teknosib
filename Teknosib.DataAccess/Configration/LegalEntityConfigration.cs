@@ -38,7 +38,7 @@ namespace Teknosib.DataAccess.Configration
             builder.HasMany(l => l.AppUsers)
                 .WithOne(l => l.LegalEntity)
                 .HasForeignKey(l => l.LegalEntityId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(l => l.OwnedProblems)
                 .WithOne(l => l.OwnerLegalEntity)

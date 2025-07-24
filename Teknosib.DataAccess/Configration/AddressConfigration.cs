@@ -23,7 +23,7 @@ namespace Teknosib.DataAccess.Configration
             builder.Property(x => x.AddressLine).HasMaxLength(350);
             builder.Property(x => x.PostalCode).HasMaxLength(50);
 
-
+            
 
 
 
