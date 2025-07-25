@@ -19,6 +19,8 @@ namespace Teknosib.Entity.Models
         public string? ProfileImageUrl { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
         public bool IsProfileCompleted { get; set; } = false;
         public RoleTypes Role { get; set; }
 

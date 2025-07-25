@@ -13,6 +13,7 @@ using Teknosib.DataAccess.EntitiyFramework;
 using Teknosib.Entity.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.Extensions.Logging;
+using Teknosib.Business.Dto.TokenDto;
 
 namespace Teknosib.Business.Services
 {
@@ -33,22 +34,23 @@ namespace Teknosib.Business.Services
             _logger = logger;
         }
 
-        public async Task<ResponseDto<string>> LoginAsync(LoginDto dto)
+        public async Task<ResponseDto<TokensDto>> LoginAsync(LoginDto dto)
         {
            var user = await _unitOfWork.AppUsers.GetByFilterAsync(u=>u.Email == dto.Email);
-            if(user == null)
+            if(user == null || !VerifyPasswordHash(dto.Password,user.PasswordHash,user.PasswordSalt))
             {
                 _logger.LogWarning("Başarısız giriş denemesi. Denenen Email :{Email}", dto.Email);
-                return ResponseDto<string>.Fail("Geçersiz kullanıcı adı veya şifre!",400);
+                return ResponseDto<TokensDto>.Fail("Geçersiz kullanıcı adı veya şifre!",400);
             }
-            if (!VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                _logger.LogWarning("Başarısız giriş denemesi. Denenen şifre ve Email:{Email},{Password}", dto.Email,dto.Password);
-                return ResponseDto<string>.Fail("Geçersiz kullancı adı veya şifre!", 400);
-            }
-            var token = _tokenService.CreateToken(user);
+           
+            var tokens = _tokenService.CreateTokens(user);
+            user.RefreshToken = tokens.RefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+            await _unitOfWork.AppUsers.UpdateAsync(user);
+            await _unitOfWork.SaveChangesAsync();
             _logger.LogInformation("Giriş başarılı. Giriş yapılan bilgileri: UserId :{AppUserId}, Name: {Name}", user.AppUserId, user.Name);
-            return ResponseDto<string>.Success(token, 200);
+            return ResponseDto<TokensDto>.Success(tokens, 200);
         }
 
         public async Task<ResponseDto<object>> RegisterIntitutionAsync(RegisterInstitutionDto dto)
@@ -144,6 +146,24 @@ namespace Teknosib.Business.Services
             }
         }
 
+        public async Task<ResponseDto<TokensDto>> RefreshToken(string refreshtoken)
+        {
+            var user = await _unitOfWork.AppUsers.GetByFilterAsync(u=>u.RefreshToken == refreshtoken);
+            if(user is null)
+            {
+                return ResponseDto<TokensDto>.Fail("Oturum süresi dolmuş veya geçersiz.", 401);
+            }
+            var tokens = _tokenService.CreateTokens(user);
 
+            
+            user.RefreshToken = tokens.RefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+            await _unitOfWork.AppUsers.UpdateAsync(user);
+            await _unitOfWork.SaveChangesAsync();
+
+            return ResponseDto<TokensDto>.Success(tokens, 200);
+
+        }
     }
 }

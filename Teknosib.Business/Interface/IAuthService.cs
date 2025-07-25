@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Teknosib.Business.Dto.AuthDto.LoginDto;
 using Teknosib.Business.Dto.AuthDto.RegisterDto;
+using Teknosib.Business.Dto.TokenDto;
 
 
 namespace Teknosib.Business.Interface
@@ -14,7 +15,8 @@ namespace Teknosib.Business.Interface
         Task<ResponseDto<object>> RegisterUserAsync(RegisterUserDto dto);
         Task<ResponseDto<object>> RegisterIntitutionAsync(RegisterInstitutionDto dto);
         Task<ResponseDto<object>> RegisterCompanyAsync(RegisterCompanyDto dto);
-        Task<ResponseDto<string>> LoginAsync(LoginDto dto);
+        Task<ResponseDto<TokensDto>> LoginAsync(LoginDto dto);
+        Task<ResponseDto<TokensDto>> RefreshToken(string refreshtoken);
 
 
 

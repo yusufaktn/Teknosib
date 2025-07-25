@@ -51,3 +51,12 @@ API Dokümantasyonu (Swagger): Geliþtirme ortamýnda API endpoint'lerinin otomatik
 
 Mevcut Durum:
 Projenin temel altyapýsý ve mimarisi baþarýyla kurulmuþtur. Authentication, Category, Company ve Problem gibi ana iþlevler için DTO, Mapper, Servis ve Controller katmanlarý tamamlanmýþtýr. Veritabaný baðlantýsý ve loglama mekanizmalarý çalýþýr durumdadýr.
+
+
+
+Eklenecekler:
+Middleware: Projeye, hata yönetimi, performans izleme ve güvenlik gibi konularda middleware'ler eklenebilir.
+Caching: Performansý artýrmak için Redis veya MemoryCache gibi caching mekanizmalarý entegre edilebilir.
+Unit Test: Business katmanýndaki servisler için birim testler yazýlabilir. Bu, kodun doðruluðunu ve güvenilirliðini artýrýr.
+API Versiyonlama: API'nin farklý versiyonlarýný desteklemek için versiyonlama mekanizmasý eklenebilir.
+Policy tabanlý Yetkilendirme: Daha esnek ve ayrýntýlý yetkilendirme kurallarý için policy tabanlý yetkilendirme mekanizmasý entegre edilebilir.

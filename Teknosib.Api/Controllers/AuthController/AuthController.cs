@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Teknosib.Business.Dto.AuthDto.LoginDto;
 using Teknosib.Business.Dto.AuthDto.RegisterDto;
+using Teknosib.Business.Dto.TokenDto;
 using Teknosib.Business.Interface;
 
 namespace Teknosib.Api.Controllers.Auth
@@ -81,6 +82,18 @@ namespace Teknosib.Api.Controllers.Auth
                 return Ok(response);
             }
             return BadRequest(response);
+
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshTokenLogin(TokensDto tokensDto)
+        {
+            var result = await _authService.RefreshToken(tokensDto.RefreshToken);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return Unauthorized(result);
 
         }
 
