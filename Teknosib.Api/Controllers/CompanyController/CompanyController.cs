@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Teknosib.Business.Dto.CompanyDto;
 using Teknosib.Business.Interface;
+using Teknosib.Business.Interface.File;
 
 namespace Teknosib.Api.Controllers.CompanyController
 {
@@ -94,6 +95,7 @@ namespace Teknosib.Api.Controllers.CompanyController
             return BadRequest(response);
 
         }
+        
 
     }
 }

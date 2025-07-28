@@ -19,5 +19,7 @@ namespace Teknosib.Business.Interface
         Task<ResponseDto<object>> DeleteProblemAsync(DeleteProblemDto deleteProblemDto);
         Task<ResponseDto<object>> HardDeleteProblemAsync(DeleteProblemDto deleteProblemDto);
         Task<ResponseDto<List<ProblemDto>>> GetProblemByCategoryIdAsync(Guid id);
+        Task<ResponseDto<List<ProblemDto>>> GetProblemByCompanyIdAsync(Guid companyId);
+        Task<ResponseDto<List<ProblemDto>>> GetProblemByInstitutionIdAsync(Guid institutionid);
     }
 }

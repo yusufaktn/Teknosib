@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +18,13 @@ namespace Teknosib.Business.Services
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<ProblemService> _logger;
 
-        public ProblemService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ProblemService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProblemService> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<ResponseDto<ProblemDto>> CreateProblemAsync(CreateProblemDto createProblemDto)
@@ -102,6 +106,48 @@ namespace Teknosib.Business.Services
             }
                       
 
+        }
+
+        public async Task<ResponseDto<List<ProblemDto>>> GetProblemByCompanyIdAsync(Guid companyId)
+        {
+            try
+            {
+                var getproblem = await _unitOfWork.Problems.GetProblemByCompanyIdAsync(companyId);
+                if (getproblem is null)
+                {
+                    _logger.LogWarning($"Problem bulunamadı. Id:{companyId}");
+                    return ResponseDto<List<ProblemDto>>.Fail("Problem bulunamadı.", 404);
+                }
+                var mappingdto = _mapper.Map<List<ProblemDto>>(getproblem);
+                _logger.LogInformation($"Problemler başarıyla getirildi. Id:{companyId}");
+                return ResponseDto<List<ProblemDto>>.Success(mappingdto, 200, "Problemler başarıyla getirildi.");
+            }
+            catch (Exception)
+            {
+                _logger.LogWarning($"Problem getirilirken bir sorun oluştu. Id:{companyId}");
+                return ResponseDto<List<ProblemDto>>.Fail("Problem getirilirken bir sorun oluştu.", 404);
+            }                    
+        }
+
+        public async Task<ResponseDto<List<ProblemDto>>> GetProblemByInstitutionIdAsync(Guid institutionid)
+        {
+            try
+            {
+                var getproblem = await _unitOfWork.Problems.GetProblemByInstitutionIdAsync(institutionid);
+                if (getproblem is null)
+                {
+                    _logger.LogWarning($"Problem bulunamadı. Id:{institutionid}");
+                    return ResponseDto<List<ProblemDto>>.Fail("Problem bulunamadı.", 404);
+                }
+                var mappingdto = _mapper.Map<List<ProblemDto>>(getproblem);
+                _logger.LogInformation($"Problemler başarıyla getirildi. Id:{institutionid}");
+                return ResponseDto<List<ProblemDto>>.Success(mappingdto, 200, "Problemler başarıyla getirildi.");
+            }
+            catch (Exception)
+            {
+                _logger.LogWarning($"Problem getirilirken bir sorun oluştu. Id:{institutionid}");
+                return ResponseDto<List<ProblemDto>>.Fail("Problem getirilirken bir sorun oluştu.", 404);
+            }
         }
 
         public async Task<ResponseDto<List<ProblemDto>>> GetProblemListAsync()

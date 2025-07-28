@@ -126,6 +126,30 @@ namespace Teknosib.Api.Controllers.ProblemController
             return BadRequest(response);
         }
 
+        [HttpGet("GetProblemByCompanyId")]
+        
+        public async Task<IActionResult> GetProblemByCompanyId(Guid companyid)
+        {
+            var response = await _problemService.GetProblemByCompanyIdAsync(companyid);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpGet("GetProblemByInstitutionId")]
+        public async Task<IActionResult> GetProblemByInstitutionId(Guid institutionid)
+        {
+            var response = await _problemService.GetProblemByInstitutionIdAsync(institutionid);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+       
+
 
 
     }

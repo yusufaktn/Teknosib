@@ -33,9 +33,11 @@ namespace Teknosib.DataAccess.Repository.Repo
             return problem_company;
         }
 
-        public Task<List<Problem>> GetProblemByInstitutionIdAsync(Guid institutionid)
+        public async Task<List<Problem>> GetProblemByInstitutionIdAsync(Guid institutionid)
         {
-            throw new NotImplementedException();
+            var problem_institution = await _dbSet.Where(x=>x.OwnerLegalEntityId==institutionid)
+                .Include(x=>x.OwnerLegalEntityId).ToListAsync();
+            return problem_institution;
         }
 
         public Task<List<Problem>> GetProblemWithDetail()

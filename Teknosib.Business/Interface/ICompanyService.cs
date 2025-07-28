@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace Teknosib.Business.Interface
         Task<ResponseDto<UpdateCompanyDto>> UpdateCompanyAsync(Guid id ,UpdateCompanyDto updateCompanyDto);
         Task<ResponseDto<object>> DeleteCompanyAsync(DeleteCompanyDto deleteCompanyDto);
         Task<ResponseDto<object>> HardDeleteAsync(DeleteCompanyDto deleteCompanyDto);
+        Task<ResponseDto<CompanyDto>> SaveCompanyLogo(Guid companyid,IFormFile formFile);
 
     }
 }

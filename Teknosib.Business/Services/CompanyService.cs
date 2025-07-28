@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Teknosib.Business.Dto.CompanyDto;
 using Teknosib.Business.Dto.ProblemDto;
 using Teknosib.Business.Interface;
+using Teknosib.Business.Interface.File;
 using Teknosib.Entity.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -17,13 +20,15 @@ namespace Teknosib.Business.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
         private readonly ILogger<CompanyService> _logger;
 
-        public CompanyService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CompanyService> logger)
+        public CompanyService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CompanyService> logger, IFileService fileService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _fileService = fileService;
         }
 
         public async Task<ResponseDto<CompanyDto>> CreateCompanyAsync(CreateCompanyDto createCompanyDto)
@@ -169,6 +174,45 @@ namespace Teknosib.Business.Services
                 _logger.LogWarning($"Silinecek Şirket/Firma silinirken bir hata oluştu. Gönderilen Id: {deleteCompanyDto.Id}");
                 return ResponseDto<object>.Fail("Silinecek Şirket/Firma bulunamadı. "+ex.Message, 500);
 
+            }
+        }
+
+        public async Task<ResponseDto<CompanyDto>> SaveCompanyLogo(Guid companyid, IFormFile formFile)
+        {
+            try
+            {
+                var getcompany = await _unitOfWork.Companies.GetByIdAsync(companyid);
+                if(getcompany is null)
+                {
+                    _logger.LogWarning($"Şirket/Firma bulunamadı. Id:{companyid}");
+                    return ResponseDto<CompanyDto>.Fail("Şirket/Firma bulunamadı.", 404);
+                }
+                var old_url = getcompany.Logo;
+                if (!string.IsNullOrEmpty(old_url))
+                {
+                    await _fileService.DeleteFileAsync(old_url);
+                }
+                var fileresult = await _fileService.SaveCompanyLogoAsync(formFile);
+                if (!fileresult.IsSuccess)
+                {
+                    _logger.LogWarning("Logo eklenirken bir hata oluştu.");
+                    return ResponseDto<CompanyDto>.Fail("Logo eklenirken bir hata oluştu.", 500);
+
+                }
+
+                getcompany.Logo = fileresult.Data.FileUrl;
+                await _unitOfWork.Companies.UpdateAsync(getcompany);
+                await _unitOfWork.SaveChangesAsync();
+                var mappingdto = _mapper.Map<CompanyDto>(getcompany);
+                _logger.LogInformation($"Şirket logosu güncellendi. Id: {companyid}");
+                return ResponseDto<CompanyDto>.Success(mappingdto, 200, "Logo başarıyla güncellendi.");
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogWarning($"Logo güncellenirken hata oluştu. Id: {companyid}", );
+                return ResponseDto<CompanyDto>.Fail("Logo güncellenirken bir sunucu hatası oluştu.", 500);
             }
         }
 

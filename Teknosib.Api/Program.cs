@@ -14,6 +14,9 @@ using FluentValidation;
 using Teknosib.DataAccess.Repository.Interface;
 using Teknosib.DataAccess.Repository.Repo;
 using Serilog;
+using Azure.Identity;
+using Teknosib.Business.Interface.File;
+using Microsoft.AspNetCore.Http.Features;
 
 
 namespace Teknosib.Api
@@ -23,6 +26,20 @@ namespace Teknosib.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            var keyVaultUri = builder.Configuration["KeyVaultUri"];
+            if (!string.IsNullOrEmpty(keyVaultUri))
+            {
+                builder.Configuration.AddAzureKeyVault(new Uri(keyVaultUri), new DefaultAzureCredential());
+            }
+
+            // File upload configuration
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 10 * 1024 * 1024; // 10MB
+            });
+
+
             var logger = new LoggerConfiguration()
              .ReadFrom.Configuration(builder.Configuration)
              .Enrich.FromLogContext()
@@ -47,6 +64,7 @@ namespace Teknosib.Api
             builder.Services.AddScoped<IProposalService, ProposalService>();
             builder.Services.AddScoped<ISupportCallService, SupportCallService>();
             builder.Services.AddScoped<IAddressService, AddressService>();
+            builder.Services.AddScoped<IFileService, AzureBlobService>();
 
 
             //DataAccess Layer
