@@ -26,16 +26,8 @@ namespace Teknosib.Business.ValidationRules.ProblemRules
             RuleFor(p => p.CategoryId)
                 .NotEmpty().WithMessage("Kategori seçimi zorunludur.");
 
-            RuleFor(p => p.CompanyId)
+            RuleFor(p => p.OwnerLegalEntityId)
                 .NotEmpty().WithMessage("Şirket bilgisi zorunludur.");
-
-            RuleFor(p => p.MinBudget)
-                .GreaterThan(0).When(p => p.MinBudget.HasValue)
-                .WithMessage("Minimum bütçe 0'dan büyük olmalıdır.");
-
-            RuleFor(p => p.MaxBudget)
-                .GreaterThan(p => p.MinBudget).When(p => p.MaxBudget.HasValue && p.MinBudget.HasValue)
-                .WithMessage("Maksimum bütçe, minimum bütçeden büyük olmalıdır.");
 
 
 

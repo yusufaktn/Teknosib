@@ -12,16 +12,12 @@ namespace Teknosib.Business.Dto.ProblemDto
         public Guid ProblemId { get; set; }
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public Guid CompanyId { get; set; }
-        public string CompanyName { get; set; }
+        public Guid OwnerLegalEntityId { get; set; }
+        public string LegalEntityName { get; set; }
 
         public string Title { get; set; }
         public string Description { get; set; }
         public ProblemStatus P_Status { get; set; }
-        public bool Status { get; set; }
-
-        //Min-max bütçe
-        public decimal? MinBudget { get; set; }
-        public decimal? MaxBudget { get; set; }
+     
     }
 }

@@ -25,9 +25,7 @@ namespace Teknosib.Entity.Models
         public virtual Category Category { get; set; }
         public virtual LegalEntity OwnerLegalEntity { get; set; }
         public virtual  Project Project { get; set; }
-        public  virtual ICollection<Proposal> Proposal { get; set; }
-
-        
+        public  virtual ICollection<Proposal> Proposal { get; set; }      
 
     }
 }

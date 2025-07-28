@@ -12,34 +12,28 @@ namespace Teknosib.Business.ValidationRules.AuthRules.RegisterRules
     {
         public RegisterUserValidator()
         {
-            //RuleFor(i => i.Email)
-            //    .NotEmpty().WithMessage("Email boş geçilemez.")
-            //    .EmailAddress().WithMessage("Geçerli bir email adresi girin");
+            RuleFor(i => i.LegalEntityId)
+                .NotEmpty().WithMessage("Legal Entity ID boş geçilemez.");
 
-            //RuleFor(i => i.Password)
-            //    .NotEmpty().WithMessage("Şifre boş geçilemez")
-            //    .MinimumLength(8).WithMessage("Şifre en az 8 karakter olmalıdır.")
-            //    .Matches("[A-Z]").WithMessage("Şifrede en az bir büyük harf olmalıdır")
-            //    .Matches("[a-z]").WithMessage("Şifrede en az bir küçük harf olmalıdır")
-            //    .Matches("[0-9]").WithMessage("Şifrede en az bir rakam olmalıdır.")
-            //    .Matches("[^a-zA-Z0-9]").WithMessage("Şifrede en az bir özel karakter olmalıdır");
+            RuleFor(i => i.Name)
+                .NotEmpty().WithMessage("Ad alanı boş geçilemez.")
+                .MaximumLength(100).WithMessage("Ad en fazla 100 karakter olabilir.");
 
+            RuleFor(i => i.Surname)
+                .NotEmpty().WithMessage("Soyad alanı boş geçilemez.")
+                .MaximumLength(100).WithMessage("Soyad en fazla 100 karakter olabilir.");
 
-            //RuleFor(b => b.ExpertiseAreas)
-            //    .NotEmpty().WithMessage("Uzmanlık alanı boş bırakılamaz.")
-            //    .MaximumLength(200).WithMessage("Uzmanlık alanı 200 karakteri geçemez.");
+            RuleFor(i => i.Email)
+                .NotEmpty().WithMessage("Email boş geçilemez.")
+                .EmailAddress().WithMessage("Geçerli bir email adresi girin");
 
-            //RuleFor(b => b.ExperienceYear)
-            //    .NotEmpty().WithMessage("Deneyim yılı boş geçilemez.");
-
-            //RuleFor(b => b.Phone)
-            //    .NotEmpty().WithMessage("Telefon numarası boş geçilemez")
-            //    .MaximumLength(14).WithMessage("Telfon formatına uygun değil");
-
-
-            //RuleFor(i => i.FirstName)
-            //    .NotEmpty().WithMessage("Ad alanı boş geçilemez.")
-            //    .MaximumLength(150).WithMessage("Ad  150 karakteri geçemez.");
+            RuleFor(i => i.Password)
+                .NotEmpty().WithMessage("Şifre boş geçilemez")
+                .MinimumLength(8).WithMessage("Şifre en az 8 karakter olmalıdır.")
+                .Matches("[A-Z]").WithMessage("Şifrede en az bir büyük harf olmalıdır")
+                .Matches("[a-z]").WithMessage("Şifrede en az bir küçük harf olmalıdır")
+                .Matches("[0-9]").WithMessage("Şifrede en az bir rakam olmalıdır.")
+                .Matches("[^a-zA-Z0-9]").WithMessage("Şifrede en az bir özel karakter olmalıdır");
 
             //RuleFor(i => i.LastName)
             //    .NotEmpty().WithMessage("Soyad boş geçilemez.")

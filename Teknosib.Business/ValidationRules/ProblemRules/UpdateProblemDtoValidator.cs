@@ -30,13 +30,7 @@ namespace Teknosib.Business.ValidationRules.ProblemRules
             RuleFor(p => p.P_Status)
                 .IsInEnum().WithMessage("Geçerli bir problem durumu belirtilmelidir.");
 
-            RuleFor(p => p.MinBudget)
-                .GreaterThan(0).When(p => p.MinBudget.HasValue)
-                .WithMessage("Minimum bütçe 0'dan büyük olmalıdır.");
-
-            RuleFor(p => p.MaxBudget)
-                .GreaterThan(p => p.MinBudget).When(p => p.MaxBudget.HasValue && p.MinBudget.HasValue)
-                .WithMessage("Maksimum bütçe, minimum bütçeden büyük olmalıdır.");
+            
         }
     }
 }

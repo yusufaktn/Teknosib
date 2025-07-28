@@ -26,6 +26,18 @@ namespace Teknosib.DataAccess.Repository.Repo
             return problem;           
         }
 
+        public async Task<List<Problem>> GetProblemByCompanyIdAsync(Guid companyid)
+        {
+            var problem_company = await _dbSet.Where(x => x.OwnerLegalEntityId == companyid)
+                .Include(x => x.OwnerLegalEntity).ToListAsync();
+            return problem_company;
+        }
+
+        public Task<List<Problem>> GetProblemByInstitutionIdAsync(Guid institutionid)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<Problem>> GetProblemWithDetail()
         {
             var problem = _dbSet.Where(x=>x.Status==true).Include(x=>x.Category).Include(x=>x.OwnerLegalEntity).ToListAsync() ;

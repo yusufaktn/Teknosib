@@ -10,6 +10,8 @@ namespace Teknosib.DataAccess.Repository.Interface
     public interface IProblemRepository:IGenericRepository<Problem>
     {
         Task<List<Problem>> GetProblemByCategoryIdAsync(Guid categoryid);
+        Task<List<Problem>> GetProblemByCompanyIdAsync(Guid companyid);
+        Task<List<Problem>> GetProblemByInstitutionIdAsync(Guid institutionid);
         Task<List<Problem>> GetProblemWithDetail();
     }
 }

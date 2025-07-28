@@ -21,7 +21,7 @@ namespace Teknosib.Business.Mapper.ProblemMap
             // Çıkış haritalaması (Açık ve özel kurallı)
             CreateMap<Problem, ProblemDto>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
-                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.OwnerLegalEntity.Name));
+                .ForMember(dest => dest.LegalEntityName, opt => opt.MapFrom(src => src.OwnerLegalEntity.Name));
 
 
 
