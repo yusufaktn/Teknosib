@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Teknosib.Business.Dto.CompanyDto;
 using Teknosib.Business.Dto.InstitutionDto;
 using Teknosib.Business.Interface;
+using Teknosib.Business.Interface.File;
 using Teknosib.Entity.Models;
 
 namespace Teknosib.Business.Services
@@ -17,12 +20,14 @@ namespace Teknosib.Business.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<InstitutionService> _logger;
+        private readonly IFileService _fileService;
 
-        public InstitutionService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<InstitutionService> logger)
+        public InstitutionService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<InstitutionService> logger, IFileService fileService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _fileService = fileService;
         }
 
         public async Task<ResponseDto<InstitutionDto>> CreateInstitutionAsync(CreateInstitutionDto createInstitutionDto)
@@ -98,6 +103,8 @@ namespace Teknosib.Business.Services
             }
         }
 
+       
+
         public async Task<ResponseDto<List<InstitutionDto>>> GetInstitutionListAsync()
         {
             try
@@ -166,6 +173,44 @@ namespace Teknosib.Business.Services
                 _logger.LogWarning("Silinecek kurum silinirken bir hata oluştu. Gönderilen Id: {Id}", deleteInstitutionDto.Id);
                 return ResponseDto<object>.Fail("Silme işlemi sırasında bir hata oluştu. " + ex.Message, 500);
 
+            }
+        }
+
+        public async Task<ResponseDto<InstitutionDto>> SaveInstitutionLogo(Guid institutionId, IFormFile formFile)
+        {
+            try
+            {
+                var getinstitution = await _unitOfWork.Institutions.GetByIdAsync(institutionId);
+                if(getinstitution is null)
+                {
+                    _logger.LogWarning($"Şirket/Firma bulunamadı. Id:{institutionId}");
+                    return ResponseDto<InstitutionDto>.Fail("Kurum bulunamadı.", 404);
+                }
+                var oldurl = getinstitution.Logo;
+                if (!string.IsNullOrEmpty(oldurl))
+                {
+                    await _fileService.DeleteFileAsync(oldurl);  
+                }
+                var response = await _fileService.SaveInstitutionLogoAsync(formFile);
+                if (!response.IsSuccess)
+                {
+                    _logger.LogWarning("Logo eklenirken bir hata oluştu.");
+                    return ResponseDto<InstitutionDto>.Fail("Logo eklenirken bir hata oluştu.", 500);
+
+                }
+                getinstitution.Logo = response.Data.FileUrl;
+
+                await _unitOfWork.Institutions.UpdateAsync(getinstitution);
+                await _unitOfWork.SaveChangesAsync();
+                var mappingdto=  _mapper.Map<InstitutionDto>(getinstitution);
+                _logger.LogInformation($"Kurum logosu güncellendi. Id: {institutionId}");
+                return ResponseDto<InstitutionDto>.Success(mappingdto, 200, "Logo başarıyla güncellendi.");
+            }
+            catch (Exception)
+            {
+
+                _logger.LogWarning($"Logo güncellenirken hata oluştu. Id: {institutionId}");
+                return ResponseDto<InstitutionDto>.Fail("Logo güncellenirken bir sunucu hatası oluştu.", 500);
             }
         }
 

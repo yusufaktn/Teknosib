@@ -14,5 +14,7 @@ namespace Teknosib.DataAccess.Repository.Repo
         public InstitutionRepository(MyContext context) : base(context)
         {
         }
+
+        
     }
 }

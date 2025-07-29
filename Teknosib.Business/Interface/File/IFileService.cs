@@ -12,6 +12,8 @@ namespace Teknosib.Business.Interface.File
     public interface IFileService
     {
         Task<ResponseDto<FileResponseDto>> SaveCompanyLogoAsync(IFormFile file);
+        Task<ResponseDto<FileResponseDto>> SaveInstitutionLogoAsync(IFormFile file);
+
         Task<ResponseDto<object>> DeleteFileAsync(string fileUrl);
         Task<ResponseDto<FileResponseDto>> SaveProfileImageAsync(IFormFile file);
     }

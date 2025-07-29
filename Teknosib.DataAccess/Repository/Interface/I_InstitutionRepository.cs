@@ -9,5 +9,6 @@ namespace Teknosib.DataAccess.Repository.Interface
 {
     public interface I_InstitutionRepository:IGenericRepository<Institution>
     {
+        
     }
 }

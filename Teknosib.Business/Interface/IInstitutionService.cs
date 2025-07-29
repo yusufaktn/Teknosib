@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace Teknosib.Business.Interface
         Task<ResponseDto<InstitutionDto>> CreateInstitutionAsync(CreateInstitutionDto createInstitutionDto);
         Task<ResponseDto<UpdateInstitutionDto>> UpdateInstitutionAsync(Guid id, UpdateInstitutionDto updateInstitutionDto);
         Task<ResponseDto<object>> DeleteInstitutionAsync(DeleteInstitutionDto deleteInstitutionDto);
-        Task<ResponseDto<object>> HardDeleteInstitutionAsync(DeleteInstitutionDto deleteInstitutionDto);
+        Task<ResponseDto<object>> HardDeleteInstitutionAsync(DeleteInstitutionDto deleteInstitutionDto);      
+        Task<ResponseDto<InstitutionDto>> SaveInstitutionLogo(Guid institutionId, IFormFile formFile);
     }
 }

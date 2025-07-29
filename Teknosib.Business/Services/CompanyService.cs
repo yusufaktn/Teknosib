@@ -229,7 +229,7 @@ namespace Teknosib.Business.Services
                 var mappingdto = _mapper.Map(updateCompanyDto, getcompany);
                 await _unitOfWork.Companies.UpdateAsync(mappingdto);
                 await _unitOfWork.SaveChangesAsync();
-                _logger.LogInformation($"Şirket/Firma güncelleme işlemi başarılı. Güncellenen Şirket/Firma: {id},{getcompany}");
+                _logger.LogInformation($"Şirket/Firma güncelleme işlemi başarılı. Güncellenen Şirket/Firma: {id},{getcompany.Name}");
                 return ResponseDto<UpdateCompanyDto>.Success(updateCompanyDto, 200, "Güncelleme işlemi başarılı.");
 
 

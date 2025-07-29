@@ -23,9 +23,7 @@ namespace Teknosib.Business.Services
         public AzureBlobService(IConfiguration configuration, ILogger<AzureBlobService> logger)
         {
             _connectionString = configuration["AzureStorageConfig:ConnectionString"];
-            _containerName = configuration["AzureStorageConfig:ContainerName"];
-
-            // GetValue yerine bu şekilde kullan
+            _containerName = configuration["AzureStorageConfig:ContainerName"];           
             var maxSizeConfig = configuration["AzureStorageConfig:MaxFileSizeBytes"];
             _maxFileSizeBytes = long.TryParse(maxSizeConfig, out var maxSize) ? maxSize : 2 * 1024 * 1024;
 
@@ -61,6 +59,36 @@ namespace Teknosib.Business.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error uploading company logo: {FileName}", file?.FileName);
+                return ResponseDto<FileResponseDto>.Fail("Logo yükleme başarısız", 500);
+            }
+        }
+        public async Task<ResponseDto<FileResponseDto>> SaveInstitutionLogoAsync(IFormFile file)
+        {
+            try
+            {
+                if (!IsValidImageFile(file))
+                {
+                    _logger.LogWarning("Invalid company logo file upload attempt: {FileName}", file?.FileName);
+                    return ResponseDto<FileResponseDto>.Fail("Geçersiz dosya. Sadece JPEG, PNG, WebP formatları ve maksimum 2MB boyut kabul edilir.", 500);
+                }
+
+                var fileUrl = await SaveFileInternalAsync(file, "institution-logos");
+
+                var response = new FileResponseDto
+                {
+                    FileUrl = fileUrl,
+                    FileName = file.FileName,
+                    FileSize = file.Length,
+                    ContentType = file.ContentType,
+                    Subfolder = "institution-logos"
+                };
+
+                _logger.LogInformation("Institution logo uploaded successfully: {FileUrl}", fileUrl);
+                return ResponseDto<FileResponseDto>.Success(response, 200, "Logo başarıyla yüklendi");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error uploading institution logo: {FileName}", file?.FileName);
                 return ResponseDto<FileResponseDto>.Fail("Logo yükleme başarısız", 500);
             }
         }
@@ -190,5 +218,7 @@ namespace Teknosib.Business.Services
 
             return allowedExtensions.Contains(fileExtension);
         }
+
+        
     }
 }

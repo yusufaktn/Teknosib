@@ -96,5 +96,17 @@ namespace Teknosib.Api.Controllers.InstitutionController
 
         }
 
+        [HttpPost("SaveInstitutionLogo")]
+        public async Task<IActionResult> SaveInstitutionLogo(Guid institutionId,IFormFile formFile)
+        {
+            var response = await _institutionService.SaveInstitutionLogo(institutionId, formFile);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+
+        }
+
     }
 }
