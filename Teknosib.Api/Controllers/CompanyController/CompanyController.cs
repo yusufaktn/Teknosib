@@ -95,6 +95,22 @@ namespace Teknosib.Api.Controllers.CompanyController
             return BadRequest(response);
 
         }
+
+        [HttpPost("SaveCompanyLogo")]
+        public async Task<IActionResult> SaveCompanyLogo(Guid id, IFormFile file)
+        {
+            if(file is null || file.Length == 0)
+            {
+                return BadRequest("Lütfen bir dosya seçin.");
+            }
+            var reponse = await _companyService.SaveCompanyLogo(id,file);
+            if (reponse.IsSuccess)
+            {
+                return Ok(reponse);
+            }
+            return BadRequest(reponse);
+
+        }
         
 
     }

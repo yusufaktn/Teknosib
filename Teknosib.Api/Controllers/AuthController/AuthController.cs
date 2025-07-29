@@ -31,7 +31,7 @@ namespace Teknosib.Api.Controllers.Auth
             if(response.IsSuccess)
             {
 
-                return Ok(new { Token = response });
+                return Ok(response);
             }
 
             return BadRequest(response);

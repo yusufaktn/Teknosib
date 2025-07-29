@@ -211,7 +211,7 @@ namespace Teknosib.Business.Services
             catch (Exception ex)
             {
 
-                _logger.LogWarning($"Logo güncellenirken hata oluştu. Id: {companyid}", );
+                _logger.LogWarning($"Logo güncellenirken hata oluştu. Id: {companyid}");
                 return ResponseDto<CompanyDto>.Fail("Logo güncellenirken bir sunucu hatası oluştu.", 500);
             }
         }
