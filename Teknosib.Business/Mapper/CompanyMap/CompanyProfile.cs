@@ -14,13 +14,15 @@ namespace Teknosib.Business.Mapper.CompanyMap
         public CompanyProfile()
         {
             CreateMap<Company, CompanyDto>()
-                .ForMember(x=>x.CompanyName,y=>y.MapFrom(z=>z.Name));
+                .ForMember(x => x.CompanyName, y => y.MapFrom(z => z.Name))
+                .ForMember(x => x.ApproveStatus, y => y.MapFrom(z => z.AproveStatus));
 
 
 
             CreateMap<CreateCompanyDto, Company>()
-                .ForMember(x=>x.Name,y=>y.MapFrom(z=>z.CompanyName));
-            CreateMap<UpdateCompanyDto, Company>();
+                .ForMember(x => x.Name, y => y.MapFrom(z => z.CompanyName));
+                
+            CreateMap<UpdateCompanyDto, Company>().ForMember(x => x.AproveStatus, y => y.MapFrom(z => z.ApproveStatus)); ;
 
         }
     }

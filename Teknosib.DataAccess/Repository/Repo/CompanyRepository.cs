@@ -20,10 +20,10 @@ namespace Teknosib.DataAccess.Repository.Repo
 
         public async Task<Company> UpdateApproveStatus(Guid id, ApproveStatus status)
         {
-            var company = await _dbSet.FindAsync(id);
+            var company = await _dbSet.FirstOrDefaultAsync(x=>x.Id==id);
             if (company != null)
             {
-                company.AproveStatus = status;
+                company.AproveStatus =status;
                 company.UpdatedDate = DateTime.Now;
                 return company;
             }

@@ -36,7 +36,7 @@ namespace Teknosib.Business.Services
         {
             try
             {
-                var company = _unitOfWork.Companies.UpdateApproveStatus(id, status);
+                var company = await _unitOfWork.Companies.UpdateApproveStatus(id, status);
                 if (company is null)
                 {
                     _logger.LogWarning($"Durum güncellenemedi. Id:{id}");
