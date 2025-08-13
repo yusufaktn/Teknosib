@@ -18,6 +18,7 @@ namespace Teknosib.Business.Dto.InstitutionDto
         public string Email { get; set; }
         public string? WebSite { get; set; }
         public string? Logo { get; set; }
+        public ApproveStatus ApproveStatus { get; set; }
         public decimal AverageRating { get; set; } = 0;
         public int TotalReviews { get; set; } = 0;
         public int CompletedProjects { get; set; } = 0;

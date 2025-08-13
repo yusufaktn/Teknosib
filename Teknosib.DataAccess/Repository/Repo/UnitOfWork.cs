@@ -26,7 +26,7 @@ public class UnitOfWork : IUnitOfWork
 
         // Atamaları yeni property isimleriyle yapıyoruz.
         Categories = new CategoryRepository(_context);
-        AppUsers = new AppUserRepository(_context); // new UserRepository -> new AppUserRepository
+        AppUsers = new AppUserRepository(_context); 
         Companies = new CompanyRepository(_context);
         SupportCalls = new SupportCallRepository(_context);
         Problems = new ProblemRepository(_context);

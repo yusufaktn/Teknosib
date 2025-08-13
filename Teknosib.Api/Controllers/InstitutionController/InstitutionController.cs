@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Teknosib.Business.Dto.CompanyDto;
 using Teknosib.Business.Dto.InstitutionDto;
+using Teknosib.Business.Dto.LegalEntityDto;
 using Teknosib.Business.Interface;
+using Teknosib.Entity.Models.Enums;
 
 namespace Teknosib.Api.Controllers.InstitutionController
 {
@@ -106,6 +108,17 @@ namespace Teknosib.Api.Controllers.InstitutionController
             }
             return BadRequest(response);
 
+        }
+
+        [HttpPut("UpdateApproveStatus")]
+        public async Task<IActionResult> UpdateApprove(ApproveDto approveDto)
+        {
+            var response = await _institutionService.ApproveStatusInstitution(approveDto.Id,approveDto.ApproveStatus);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
     }

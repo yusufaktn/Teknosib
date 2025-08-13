@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Teknosib.DataAccess.EntitiyFramework;
 using Teknosib.DataAccess.Repository.Interface;
 using Teknosib.Entity.Models;
+using Teknosib.Entity.Models.Enums;
 
 namespace Teknosib.DataAccess.Repository.Repo
 {
@@ -15,6 +16,16 @@ namespace Teknosib.DataAccess.Repository.Repo
         {
         }
 
-        
+        public async Task<Institution> UpdateApproveStatus(Guid id, ApproveStatus status)
+        {
+            var institution = await _dbSet.FindAsync(id);
+            if (institution != null)
+            {
+                institution.AproveStatus = status;
+                institution.UpdatedDate = DateTime.Now;
+                return institution;
+            }
+            return null;
+        }
     }
 }

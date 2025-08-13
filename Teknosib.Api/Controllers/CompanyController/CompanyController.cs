@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Teknosib.Business.Dto.CompanyDto;
+using Teknosib.Business.Dto.LegalEntityDto;
 using Teknosib.Business.Interface;
 using Teknosib.Business.Interface.File;
+using Teknosib.Entity.Models.Enums;
 
 namespace Teknosib.Api.Controllers.CompanyController
 {
@@ -111,6 +113,18 @@ namespace Teknosib.Api.Controllers.CompanyController
             return BadRequest(reponse);
 
         }
+
+        [HttpPut("UpdateApproveStatus")]
+        public async Task<IActionResult> UpdateApprove(ApproveDto approveDto)
+        {
+            var response = await _companyService.ApproveStatusCompany(approveDto.Id,approveDto.ApproveStatus);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);    
+        }
+
         
 
     }

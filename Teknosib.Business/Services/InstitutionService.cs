@@ -12,6 +12,7 @@ using Teknosib.Business.Dto.InstitutionDto;
 using Teknosib.Business.Interface;
 using Teknosib.Business.Interface.File;
 using Teknosib.Entity.Models;
+using Teknosib.Entity.Models.Enums;
 
 namespace Teknosib.Business.Services
 {
@@ -28,6 +29,29 @@ namespace Teknosib.Business.Services
             _mapper = mapper;
             _logger = logger;
             _fileService = fileService;
+        }
+
+        public async Task<ResponseDto<InstitutionDto>> ApproveStatusInstitution(Guid id, ApproveStatus status)
+        {
+            try
+            {
+                var company = _unitOfWork.Institutions.UpdateApproveStatus(id, status);
+                if (company is null)
+                {
+                    _logger.LogWarning($"Durum güncellenemedi. Id:{id}");
+                    return ResponseDto<InstitutionDto>.Fail($"Durum güncellenemedi. Id:{id}", 404);
+
+                }
+                await _unitOfWork.SaveChangesAsync();
+                var mappingdto = _mapper.Map<InstitutionDto>(company);
+                return ResponseDto<InstitutionDto>.Success(mappingdto, 200, "Başarıyla durum güncellendi.");
+            }
+            catch (Exception)
+            {
+                _logger.LogWarning($"Durum güncellenirken bir hata oluştu. Id:{id}");
+                return ResponseDto<InstitutionDto>.Fail($"Durum güncellenemedi. Id:{id}", 500);
+
+            }
         }
 
         public async Task<ResponseDto<InstitutionDto>> CreateInstitutionAsync(CreateInstitutionDto createInstitutionDto)

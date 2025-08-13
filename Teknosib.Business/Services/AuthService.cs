@@ -49,7 +49,7 @@ namespace Teknosib.Business.Services
 
             await _unitOfWork.AppUsers.UpdateAsync(user);
             await _unitOfWork.SaveChangesAsync();
-            _logger.LogInformation("Giriş başarılı. Giriş yapılan bilgileri: UserId :{AppUserId}, Name: {Name}", user.AppUserId, user.Name);
+            _logger.LogInformation($"Giriş başarılı. Giriş yapılan bilgileri: Id:{user.AppUserId}, Name:{user.Name}");
             return ResponseDto<TokensDto>.Success(tokens, 200);
         }
 

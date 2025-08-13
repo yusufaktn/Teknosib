@@ -52,7 +52,7 @@ namespace Teknosib.Api.Controllers.CategoryController
         public async Task<IActionResult> GetByIdCategory(Guid id)
         {
             var response = await _categoryService.GetByIdCategoryAsync(id);
-            if (response.IsSuccess)
+            if (response.IsSuccess) 
             {
                 return Ok(response);
             }

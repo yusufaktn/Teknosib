@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Teknosib.Entity.Models.Enums;
 
 namespace Teknosib.Business.Dto.CompanyDto
 {
@@ -16,6 +17,7 @@ namespace Teknosib.Business.Dto.CompanyDto
         public string Email { get; set; }
         public string? WebSite { get; set; }
         public string? Logo { get; set; }
+        public ApproveStatus ApproveStatus { get; set; }
         public decimal AverageRating { get; set; } = 0;
         public int TotalReviews { get; set; } = 0;
         public int CompletedProjects { get; set; } = 0;

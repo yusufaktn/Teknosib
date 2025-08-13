@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Teknosib.Business.Dto.CompanyDto;
+using Teknosib.Entity.Models.Enums;
 
 namespace Teknosib.Business.Interface
 {
@@ -18,6 +19,7 @@ namespace Teknosib.Business.Interface
         Task<ResponseDto<object>> DeleteCompanyAsync(DeleteCompanyDto deleteCompanyDto);
         Task<ResponseDto<object>> HardDeleteAsync(DeleteCompanyDto deleteCompanyDto);
         Task<ResponseDto<CompanyDto>> SaveCompanyLogo(Guid companyid,IFormFile formFile);
+        Task<ResponseDto<CompanyDto>> ApproveStatusCompany(Guid id,ApproveStatus status);
 
     }
 }
